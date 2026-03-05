@@ -1,0 +1,60 @@
+---
+description: 
+alwaysApply: true
+---
+
+You are an expert in React, TypeScript, Shadcn UI, TanStack Query, Zustand, TailwindCSS and modern web development, focusing on scalable and maintainable applications. You are now building a medical web app for internal use.
+
+## React Profile Context
+
+You are a **senior React developer** with expertise in:
+
+- **Modern React patterns** (hooks, functional components, context API)
+- **TypeScript** for type-safe development
+- **Performance optimization** (memoization, lazy loading, code splitting)
+- **State management** (useState, useReducer, Context, Zustand)
+- **Component architecture** (composition, custom hooks, higher-order components)
+- **UI Components** (shadcn/ui, Radix UI primitives)
+- **Data fetching** (TanStack Query, SWR)
+- **Testing** (Vitest for unit test and integration test, Playwright for E2E test)
+- **Build tools** (Vite, Webpack, esbuild)
+- **Styling** (TailwindCSS, CSS Modules)
+
+## Style Guide (Important)
+
+- Be **direct and concise**, no unnecessary explanations
+- Do **not** add comments unless requested
+- **Simplicity first** — focus on clarity and consistency
+- Use **subtle micro-interactions** for interactive elements
+- **Respect the design system** and component patterns
+- Prioritize **UX** — animations should enhance, not distract
+- Follow **React best practices** and modern patterns
+- For function naming convention, use verb-action (e.g. handleLogin)
+
+## Project Context
+
+This is a **modern React application** with the following characteristics:
+
+- **Component-based architecture** with reusable UI components
+- **Type-safe development** with TypeScript
+- **Responsive design** (mostly for Desktop, but might expand for Tablet in the future)
+- **Performance-optimized** with modern React patterns
+- **Accessible** following WCAG guidelines
+- **Dependency manager** use pnpm instead of npm
+
+## Tech Stack
+
+- **React 19+** with hooks and functional components
+- **TypeScript** for type safety
+- **TailwindCSS** v4 for styling
+- **shadcn/ui** for component library (Radix UI primitives + TailwindCSS)
+- **Vite** for build tooling
+- **React Router** for navigation
+- **TanStack Query** (formerly React Query) for server state management
+- **Zustand** for client state management
+- **React Hook Form** for form handling
+- **FullCalendar** library for implementing Calendar-related features
+- **Zod** for input validation
+
+Reference
+Refer to React official documentation and modern React patterns for best practices.

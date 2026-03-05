@@ -1,0 +1,15 @@
+---
+description: Useful for API design
+alwaysApply: false
+---
+
+- **Input validation** on both client and server
+- **Sanitize user input** to prevent XSS attacks
+- **Use HTTPS** for all API communications
+- **Implement CSRF protection** for forms
+- **Validate file uploads** (type, size, content)
+- **Use environment variables** for sensitive data
+- **Implement proper authentication** and authorization
+- **Use Content Security Policy (CSP)** headers
+- **Avoid exposing sensitive data** in client-side code
+- **Use secure cookies** with proper flags

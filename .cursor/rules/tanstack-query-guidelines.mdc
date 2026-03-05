@@ -1,0 +1,13 @@
+---
+description: Useful for API integration with Tanstack query
+alwaysApply: false
+---
+
+- Use **TanStack Query** for all server state
+- **Query keys** should be arrays with hierarchical structure
+- Use **query invalidation** for cache updates
+- Implement **optimistic updates** with useMutation
+- Use **infinite queries** for pagination
+- **Prefetch data** for better UX
+- Handle **loading and error states** properly
+- Use **query client** for global configuration

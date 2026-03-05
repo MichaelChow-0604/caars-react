@@ -1,0 +1,15 @@
+---
+description: Useful for handling unhappy flow
+alwaysApply: false
+---
+
+- **Error boundaries** for catching component errors
+- **Try-catch blocks** for async operations
+- **Custom error classes** for different error types
+- **Error logging** with proper context
+- **User-friendly error messages** (no technical details)
+- **Fallback UI** for error states
+- **Retry mechanisms** for failed requests
+- **Global error handler** for unhandled errors
+- **Validation errors** with field-specific messages
+- **Network error handling** with offline detection

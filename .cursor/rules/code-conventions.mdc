@@ -1,0 +1,52 @@
+---
+alwaysApply: true
+---
+
+## Code Conventions
+
+- **File naming:** PascalCase ('UserProfile.tsx')
+- Function naming: verbAction (’handleLogin’)
+- '\*.tsx' → React components
+- '\*.ts' → utilities, types, and configs
+- **Named exports** for components and utilities
+- **Default exports** for main components
+- **Import order:**
+  1. React and React-related imports
+  2. Third-party libraries
+  3. Internal utilities and types
+  4. Relative imports
+- **Code style:**
+  - Use single quotes for strings
+  - Indent with 2 spaces
+  - No trailing whitespace
+  - Use 'const' for immutables
+  - Template strings for interpolation
+  - Use optional chaining and nullish coalescing
+
+## React Patterns
+
+- **Functional components** with hooks
+- **Custom hooks** for reusable logic
+- **Zustand or Context API** for global state
+- **Compound components** for complex UI
+- **Render props** and **children as function** patterns
+- **Higher-order components** when needed
+- **Error boundaries** for error handling
+- **Suspense** for loading states
+
+## TypeScript Guidelines
+
+- Define **interfaces** for component props and data structures
+- Use **generic types** for reusable components
+- Avoid 'any' type, use proper typing
+- Use **union types** for component variants
+- Implement **strict mode** configurations
+- Use **utility types** (Pick, Omit, Partial, etc.)
+
+## Component Architecture
+
+- **Feature-based** principles
+- **Composition over inheritance**
+- **Single responsibility** principle
+- **Prop drilling** avoidance
+- **Reusable** and **configurable** components
