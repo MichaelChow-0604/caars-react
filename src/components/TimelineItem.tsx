@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { cn } from '@/lib/utils';
+import { Card, CardTitle, CardDescription } from '@/components/ui/card';
 
 type TimelineItemState = 'normal' | 'routine' | 'emergency' | 'expired';
 
@@ -54,25 +55,30 @@ const TimelineItem: FC<TimelineItemProps> = ({
 }) => {
   const { bg, titleColor, subtitleColor, dotColor, interactive } = stateConfig[state];
 
+  const cardClassName = cn(
+    'relative w-[228px] items-start justify-center gap-0.5 rounded-[12px] border-none px-4 py-3 shadow-none',
+    bg,
+    className,
+  );
+
   const content = (
     <>
-      <p
+      <CardTitle
         className={cn(
           'font-caars-header text-caars-body-1 leading-caars-body-1 w-full font-semibold',
           titleColor,
         )}
       >
         {line1}
-      </p>
-      <p
+      </CardTitle>
+      <CardDescription
         className={cn(
           'font-caars-header text-caars-body-2 leading-caars-body-2 w-full font-normal',
           subtitleColor,
         )}
       >
         {line2}
-      </p>
-
+      </CardDescription>
       <span
         aria-hidden
         className={cn(
@@ -83,29 +89,24 @@ const TimelineItem: FC<TimelineItemProps> = ({
     </>
   );
 
-  const baseClass = cn(
-    'relative flex w-[228px] flex-col items-start justify-center gap-0.5 rounded-[12px] px-4 py-3',
-    bg,
-    className,
-  );
-
   if (interactive) {
     return (
-      <button
-        type="button"
-        onClick={onClick}
+      <Card
+        asChild
         data-state={state}
-        className={cn(baseClass, 'cursor-pointer text-left')}
+        className={cn(cardClassName, 'cursor-pointer text-left')}
       >
-        {content}
-      </button>
+        <button type="button" onClick={onClick}>
+          {content}
+        </button>
+      </Card>
     );
   }
 
   return (
-    <div data-state={state} className={baseClass}>
+    <Card data-state={state} className={cardClassName}>
       {content}
-    </div>
+    </Card>
   );
 };
 

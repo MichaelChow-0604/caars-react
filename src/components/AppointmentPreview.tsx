@@ -1,7 +1,13 @@
-import type { FC } from 'react';
-import { cn } from '@/lib/utils';
+import type { FC } from "react";
+import { cn } from "@/lib/utils";
+import {
+  Card,
+  CardTitle,
+  CardDescription,
+  CardAction,
+} from "@/components/ui/card";
 
-type AppointmentState = 'active' | 'cancelled' | 'expired';
+type AppointmentState = "active" | "cancelled" | "expired";
 
 interface AppointmentPreviewProps {
   className?: string;
@@ -10,75 +16,80 @@ interface AppointmentPreviewProps {
   state?: AppointmentState;
 }
 
+const cardBaseClassName =
+  "w-[283px] items-start justify-center gap-0.5 rounded-[12px] border-none px-4 py-3 shadow-none";
+
 const AppointmentPreview: FC<AppointmentPreviewProps> = ({
   className,
-  line1 = 'Betty Wong, 35F',
-  line2 = '11:30am',
-  state = 'active',
+  line1 = "Betty Wong, 35F",
+  line2 = "11:30am",
+  state = "active",
 }) => {
-  if (state === 'expired') {
+  if (state === "expired") {
     return (
-      <div
+      <Card
         className={cn(
-          'flex w-[283px] flex-col items-start justify-center gap-0.5 rounded-[12px] bg-caars-neutral-grey-4 px-4 py-3',
-          'text-caars-neutral-grey-6',
-          className,
+          cardBaseClassName,
+          "bg-caars-neutral-grey-4 text-caars-neutral-grey-6",
+          className
         )}
         data-state="expired"
       >
-        <p className="font-caars-header text-caars-body-1 leading-caars-body-1 font-semibold">
+        <CardTitle className="font-caars-header text-caars-body-1 leading-caars-body-1 font-semibold">
           {line1}
-        </p>
-        <p className="font-caars-header text-caars-body-2 leading-caars-body-2">
+        </CardTitle>
+        <CardDescription className="font-caars-header text-caars-body-2 leading-caars-body-2 font-normal text-caars-neutral-grey-6">
           {line2}
-        </p>
-      </div>
+        </CardDescription>
+      </Card>
     );
   }
 
-  if (state === 'cancelled') {
+  if (state === "cancelled") {
     return (
-      <div
+      <Card
         className={cn(
-          'relative flex w-[283px] flex-col items-start justify-center gap-0.5 rounded-[12px] bg-caars-error-2 px-4 py-3',
-          className,
+          cardBaseClassName,
+          "relative bg-caars-error-2",
+          className
         )}
         data-state="cancelled"
       >
-        <p className="font-caars-header text-caars-body-1 leading-caars-body-1 font-semibold text-caars-error-1">
+        <CardTitle className="font-caars-header text-caars-body-1 leading-caars-body-1 font-semibold text-caars-error-1">
           {line1}
-        </p>
-        <p className="font-caars-header text-caars-body-2 leading-caars-body-2 text-caars-neutral-grey-6">
+        </CardTitle>
+        <CardDescription className="font-caars-header text-caars-body-2 leading-caars-body-2 font-normal text-caars-neutral-grey-6">
           {line2}
-        </p>
-
-        <div className="absolute right-3 top-3 inline-flex items-center rounded-[6px] border border-caars-error-1 bg-caars-error-2 px-2 py-1">
+        </CardDescription>
+        <CardAction className="absolute right-3 top-3 inline-flex items-center rounded-[6px] border border-caars-error-1 bg-caars-error-2 px-2 py-1">
           <span className="font-caars-header text-[12px] font-semibold leading-[1.4] text-caars-error-1">
             Cancelled
           </span>
-        </div>
-      </div>
+        </CardAction>
+      </Card>
     );
   }
 
   return (
-    <button
-      type="button"
+    <Card
+      asChild
       className={cn(
-        'flex w-[283px] cursor-pointer flex-col items-start justify-center gap-0.5 rounded-[12px] bg-caars-success-2 px-4 py-3 text-left',
-        className,
+        cardBaseClassName,
+        "cursor-pointer bg-caars-success-2 text-left",
+        className
       )}
       data-state="active"
     >
-      <p className="font-caars-header text-caars-body-1 leading-caars-body-1 font-semibold text-caars-success-1">
-        {line1}
-      </p>
-      <p className="font-caars-header text-caars-body-2 leading-caars-body-2 text-caars-neutral-grey-6">
-        {line2}
-      </p>
-    </button>
+      <button type="button">
+        <CardTitle className="font-caars-header text-caars-body-1 leading-caars-body-1 font-semibold text-caars-success-1">
+          {line1}
+        </CardTitle>
+        <CardDescription className="font-caars-header text-caars-body-2 leading-caars-body-2 font-normal text-caars-neutral-grey-6">
+          {line2}
+        </CardDescription>
+      </button>
+    </Card>
   );
 };
 
 export default AppointmentPreview;
-

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { CheckIcon } from 'lucide-react';
+import { IconCheck } from '@/lib/icon';
 import {
   Checkbox as CheckboxRoot,
   CheckboxIndicator as CheckboxIndicator,
@@ -44,7 +44,7 @@ function Checkbox({
         data-slot="checkbox-indicator"
         className="grid place-content-center text-current transition-none"
       >
-        <CheckIcon className="size-3.5" />
+        <IconCheck className="size-3.5" />
       </CheckboxIndicator>
     </CheckboxRoot>
   );
