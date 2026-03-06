@@ -14,6 +14,7 @@ import {
 interface CalendarDayViewProps {
   selectedDate: Date;
   checkedStaff: StaffMember[];
+  onDoctorHeaderClick: (staffId: string) => void;
 }
 
 const COLUMN_WIDTH = 280;
@@ -22,6 +23,7 @@ const AXIS_WIDTH = 90;
 export default function CalendarDayView({
   selectedDate,
   checkedStaff,
+  onDoctorHeaderClick,
 }: CalendarDayViewProps) {
   const calendarRef = useRef<FullCalendar>(null);
 
@@ -112,7 +114,9 @@ export default function CalendarDayView({
           allDaySlot={false}
           resources={resources}
           events={appointments}
-          resourceLabelContent={renderResourceLabel}
+          resourceLabelContent={(arg) =>
+            renderResourceLabel(arg, onDoctorHeaderClick)
+          }
           eventContent={renderEventContent}
           // height="auto" makes FC expand to full content height with no
           // internal scrollbar — the outer div becomes the single scroll source
@@ -124,20 +128,28 @@ export default function CalendarDayView({
   );
 }
 
-function renderResourceLabel(arg: any) {
-  const { title, extendedProps } = arg.resource;
+function renderResourceLabel(
+  arg: any,
+  onDoctorHeaderClick: (staffId: string) => void
+) {
+  const { id, title, extendedProps } = arg.resource;
   const count: number =
     (extendedProps as { appointmentCount: number }).appointmentCount ?? 0;
 
   return (
-    <div className="flex flex-col items-center justify-center gap-0.5 py-2 w-full text-center">
-      <span className="font-caars-header text-caars-body-2 leading-caars-body-2 font-semibold text-caars-neutral-black">
+    <button
+      type="button"
+      onClick={() => onDoctorHeaderClick(id)}
+      className="flex flex-col items-center justify-center gap-0.5 py-2 w-full text-center group cursor-pointer transition-colors hover:bg-caars-primary-4 rounded-[4px]"
+      title={`View ${title}'s weekly timetable`}
+    >
+      <span className="font-caars-header text-caars-body-2 leading-caars-body-2 font-semibold text-caars-neutral-black group-hover:text-caars-primary-1 transition-colors">
         {title}
       </span>
       <span className="font-caars-header text-caars-body-3 leading-caars-body-3 font-normal text-caars-neutral-grey-6">
         {count} appointment{count !== 1 ? "s" : ""} remaining
       </span>
-    </div>
+    </button>
   );
 }
 

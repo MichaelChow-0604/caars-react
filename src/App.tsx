@@ -22,11 +22,24 @@ function App() {
   const [checkedStaffIds, setCheckedStaffIds] = useState<string[]>(
     DEFAULT_STAFF_LIST.map((s) => s.id),
   );
+  const [selectedStaffId, setSelectedStaffId] = useState<string>(
+    DEFAULT_STAFF_LIST[0].id,
+  );
 
   const checkedStaff = DEFAULT_STAFF_LIST.filter((s) => checkedStaffIds.includes(s.id));
 
   const handleDateChange = (date: Date | undefined) => {
     if (date) setSelectedDate(date);
+  };
+
+  const handleDoctorHeaderClick = (staffId: string) => {
+    setSelectedStaffId(staffId);
+    setMode('week');
+  };
+
+  const handleWeekdayHeaderClick = (date: Date) => {
+    setSelectedDate(date);
+    setMode('day');
   };
 
   return (
@@ -40,6 +53,8 @@ function App() {
         onDateChange={handleDateChange}
         checkedStaffIds={checkedStaffIds}
         onCheckedStaffChange={setCheckedStaffIds}
+        selectedStaffId={selectedStaffId}
+        onSelectedStaffChange={setSelectedStaffId}
       />
 
       <main className="flex flex-col flex-1 min-w-0 min-h-0 overflow-hidden">
@@ -52,8 +67,11 @@ function App() {
             selectedDate={selectedDate}
             checkedStaff={checkedStaff}
             staffList={DEFAULT_STAFF_LIST}
+            selectedStaffId={selectedStaffId}
             onModeChange={setMode}
             onDateChange={setSelectedDate}
+            onDoctorHeaderClick={handleDoctorHeaderClick}
+            onWeekdayHeaderClick={handleWeekdayHeaderClick}
           />
         </div>
       </main>

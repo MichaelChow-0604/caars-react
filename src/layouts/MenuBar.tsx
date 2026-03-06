@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { DayButton } from "react-day-picker";
+import { startOfWeek, endOfWeek, eachDayOfInterval } from "date-fns";
 import { cn } from "@/lib/utils";
 import MasterMenuItem from "@/components/MasterMenuItem";
 import { Calendar } from "@/components/ui/calendar";
@@ -212,6 +213,16 @@ export default function MenuBar({
                       .toLocaleDateString("en-US", { weekday: "long" })
                       .charAt(0),
                 }}
+                modifiers={
+                  mode === "week" && date
+                    ? {
+                        weekRange: eachDayOfInterval({
+                          start: startOfWeek(date, { weekStartsOn: 1 }),
+                          end: endOfWeek(date, { weekStartsOn: 1 }),
+                        }),
+                      }
+                    : undefined
+                }
                 classNames={{
                   month_caption:
                     "flex h-7 w-full items-center justify-center px-7",
@@ -395,6 +406,7 @@ function MiniCalendarDayButton({
     !modifiers.range_end &&
     !modifiers.range_middle;
   const isToday = modifiers.today;
+  const isWeekRange = (modifiers as Record<string, unknown>).weekRange === true;
 
   return (
     <button
@@ -405,6 +417,8 @@ function MiniCalendarDayButton({
           ? "bg-caars-primary-1 text-caars-neutral-white hover:bg-caars-primary-1"
           : isToday
           ? "border border-caars-primary-1 text-caars-primary-1 hover:bg-caars-neutral-grey-4"
+          : isWeekRange
+          ? "bg-caars-primary-2 text-caars-primary-1 hover:bg-caars-primary-3 hover:text-caars-neutral-white"
           : "text-caars-neutral-black hover:bg-caars-neutral-grey-4",
         modifiers.outside && "opacity-30",
         modifiers.disabled && "opacity-50 cursor-not-allowed"
