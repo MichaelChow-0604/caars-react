@@ -1,5 +1,5 @@
-import type { FC, ReactNode } from 'react';
-import { cn } from '@/lib/utils';
+import type { FC, ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
 interface MasterMenuItemProps {
   label: string;
@@ -26,42 +26,45 @@ const MasterMenuItem: FC<MasterMenuItemProps> = ({
       onClick={onClick}
       disabled={disabled}
       data-active={active}
-      className={cn('group flex w-[200px] items-center gap-2 pr-4 rounded-[12px]', className)}
+      className={cn(
+        "group flex w-[200px] items-center gap-2 pr-4 rounded-[12px]",
+        className
+      )}
     >
       {/* Left accent bar */}
       <span
         aria-hidden
         className={cn(
-          'h-[52px] w-1 shrink-0 rounded-tr-[4px] rounded-br-[4px] transition-colors',
+          "h-[52px] w-1 shrink-0 rounded-tr-[4px] rounded-br-[4px] transition-colors",
           disabled
-            ? 'bg-caars-neutral-grey-3'
+            ? "bg-caars-neutral-grey-3"
             : active
-              ? 'bg-caars-primary-3'
-              : 'bg-caars-neutral-white group-hover:bg-caars-primary-3',
+            ? "bg-caars-primary-1"
+            : "bg-caars-neutral-white group-hover:bg-caars-primary-1"
         )}
       />
 
       {/* Content area */}
       <div
         className={cn(
-          'relative flex min-w-0 flex-1 items-center gap-2 rounded-[12px] p-4 transition-colors',
+          "relative flex min-w-0 flex-1 items-center gap-2 rounded-[12px] p-4 transition-colors",
           disabled
-            ? 'bg-caars-neutral-grey-3'
+            ? "bg-caars-neutral-grey-3"
             : active
-              ? 'bg-caars-primary-4'
-              : 'bg-caars-neutral-white group-hover:bg-caars-primary-3',
+            ? "bg-caars-primary-2"
+            : "bg-caars-neutral-white group-hover:bg-caars-primary-1"
         )}
       >
         {/* Icon */}
         {icon && (
           <span
             className={cn(
-              'shrink-0 size-6 transition-colors',
+              "shrink-0 size-6 transition-colors",
               disabled
-                ? 'text-caars-neutral-grey-6'
+                ? "text-caars-neutral-grey-6"
                 : active
-                  ? 'text-caars-primary-3'
-                  : 'text-caars-neutral-black group-hover:text-caars-neutral-white',
+                ? "text-caars-primary-1"
+                : "text-caars-neutral-black group-hover:text-caars-neutral-white"
             )}
           >
             {icon}
@@ -71,12 +74,12 @@ const MasterMenuItem: FC<MasterMenuItemProps> = ({
         {/* Label */}
         <span
           className={cn(
-            'font-caars-header text-caars-body-1 leading-caars-body-1 min-w-0 flex-1 truncate text-left font-semibold transition-colors',
+            "font-caars-header text-caars-body-1 leading-caars-body-1 min-w-0 flex-1 truncate text-left font-semibold transition-colors",
             disabled
-              ? 'text-caars-neutral-grey-6'
+              ? "text-caars-neutral-grey-6"
               : active
-                ? 'text-caars-primary-3'
-                : 'text-caars-neutral-black group-hover:text-caars-neutral-white',
+              ? "text-caars-primary-1"
+              : "text-caars-neutral-black group-hover:text-caars-neutral-white"
           )}
         >
           {label}
