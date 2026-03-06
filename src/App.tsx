@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router';
 import MenuBar, { type StaffMember } from './layouts/MenuBar';
 import SearchBar from './layouts/SearchBar';
 import CalendarPage from './features/calendar/CalendarPage';
@@ -16,7 +17,36 @@ const DEFAULT_STAFF_LIST: StaffMember[] = [
   { id: '10', name: 'Dr. Priya Sharma' },
 ];
 
+const NAV_PATHS = {
+  calendar: '/calendar',
+  patient: '/patient',
+  setting: '/setting',
+  'bug-report': '/bug-report',
+} as const;
+
+type NavItemId = keyof typeof NAV_PATHS;
+
+function getActiveNavItem(pathname: string): NavItemId {
+  if (pathname.startsWith(NAV_PATHS.patient)) return 'patient';
+  if (pathname.startsWith(NAV_PATHS.setting)) return 'setting';
+  if (pathname.startsWith(NAV_PATHS['bug-report'])) return 'bug-report';
+  return 'calendar';
+}
+
+function CenterPlaceholder({ text }: { text: string }) {
+  return (
+    <div className="flex h-full w-full items-center justify-center bg-caars-neutral-white">
+      <span className="font-caars-header text-caars-body-1 leading-caars-body-1 text-caars-neutral-grey-7">
+        {text}
+      </span>
+    </div>
+  );
+}
+
 function App() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const [mode, setMode] = useState<'day' | 'week'>('day');
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [checkedStaffIds, setCheckedStaffIds] = useState<string[]>(
@@ -42,12 +72,19 @@ function App() {
     setMode('day');
   };
 
+  const handleNavItemClick = (item: string) => {
+    const path = NAV_PATHS[item as NavItemId];
+    if (path) navigate(path);
+  };
+
+  const activeNavItem = getActiveNavItem(location.pathname);
+
   return (
     <div className="flex h-screen overflow-hidden bg-caars-neutral-white">
       <MenuBar
         mode={mode}
-        activeNavItem="calendar"
-        onNavItemClick={() => {}}
+        activeNavItem={activeNavItem}
+        onNavItemClick={handleNavItemClick}
         staffList={DEFAULT_STAFF_LIST}
         selectedDate={selectedDate}
         onDateChange={handleDateChange}
@@ -62,17 +99,38 @@ function App() {
           <SearchBar />
         </div>
         <div className="flex-1 min-h-0 overflow-hidden">
-          <CalendarPage
-            mode={mode}
-            selectedDate={selectedDate}
-            checkedStaff={checkedStaff}
-            staffList={DEFAULT_STAFF_LIST}
-            selectedStaffId={selectedStaffId}
-            onModeChange={setMode}
-            onDateChange={setSelectedDate}
-            onDoctorHeaderClick={handleDoctorHeaderClick}
-            onWeekdayHeaderClick={handleWeekdayHeaderClick}
-          />
+          <Routes>
+            <Route path="/" element={<Navigate to={NAV_PATHS.calendar} replace />} />
+            <Route
+              path={NAV_PATHS.calendar}
+              element={
+                <CalendarPage
+                  mode={mode}
+                  selectedDate={selectedDate}
+                  checkedStaff={checkedStaff}
+                  staffList={DEFAULT_STAFF_LIST}
+                  selectedStaffId={selectedStaffId}
+                  onModeChange={setMode}
+                  onDateChange={setSelectedDate}
+                  onDoctorHeaderClick={handleDoctorHeaderClick}
+                  onWeekdayHeaderClick={handleWeekdayHeaderClick}
+                />
+              }
+            />
+            <Route
+              path={NAV_PATHS.patient}
+              element={<CenterPlaceholder text="Patient (placeholder)" />}
+            />
+            <Route
+              path={NAV_PATHS.setting}
+              element={<CenterPlaceholder text="Setting (placeholder)" />}
+            />
+            <Route
+              path={NAV_PATHS['bug-report']}
+              element={<CenterPlaceholder text="Bug Report (placeholder)" />}
+            />
+            <Route path="*" element={<Navigate to={NAV_PATHS.calendar} replace />} />
+          </Routes>
         </div>
       </main>
     </div>
