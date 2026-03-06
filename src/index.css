@@ -228,3 +228,216 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ─── FullCalendar CAARS overrides ─────────────────────────────────────────── */
+
+.fc-caars-wrapper .fc,
+.fc-caars-wrapper .fc *,
+.fc-caars-wrapper .fc *::before,
+.fc-caars-wrapper .fc *::after {
+  box-sizing: border-box;
+}
+
+.fc-caars-wrapper .fc-license-message {
+  display: none !important;
+}
+
+.fc-caars-wrapper .fc {
+  font-family: var(--caars-font-header, "Inter", sans-serif);
+}
+
+/* ── height="auto": make FullCalendar's internal scroll containers invisible
+   so the single outer div (fc-caars-wrapper) handles ALL scrolling ── */
+.fc-caars-wrapper .fc-view-harness {
+  height: auto !important;
+}
+
+.fc-caars-wrapper .fc-scroller-harness,
+.fc-caars-wrapper .fc-scroller-harness-liquid {
+  overflow: visible !important;
+  height: auto !important;
+}
+
+.fc-caars-wrapper .fc-scroller,
+.fc-caars-wrapper .fc-scroller-liquid {
+  overflow: visible !important;
+  height: auto !important;
+}
+
+/* Take out of absolute positioning so it flows normally */
+.fc-caars-wrapper .fc-scroller-liquid-absolute {
+  position: static !important;
+  height: auto !important;
+  inset: auto !important;
+}
+
+/* ── Sticky column headers ──
+   Stick to the top of the outer scroll container while scrolling down */
+.fc-caars-wrapper .fc-scrollgrid-section-header > td {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #ffffff;
+}
+
+/* ── Sticky time-axis column ──
+   Stick to the left of the outer scroll container while scrolling right */
+.fc-caars-wrapper .fc-timegrid-slot-label {
+  position: sticky;
+  left: 0;
+  z-index: 5;
+  background: #ffffff;
+  border: none !important;
+  text-align: right;
+  vertical-align: top;
+  width: 90px;
+  min-width: 90px;
+  padding: 0;
+}
+
+.fc-caars-wrapper .fc-timegrid-slot-label-cushion {
+  font-size: 12px;
+  font-weight: 400;
+  color: #777e90;
+  white-space: nowrap;
+  padding: 0 12px 0 0;
+  line-height: 1;
+  display: inline-block;
+  transform: translateY(-50%);
+}
+
+/* ── Time-axis header corner: sticky both top and left ── */
+.fc-caars-wrapper .fc-timegrid-axis {
+  position: sticky;
+  left: 0;
+  z-index: 15;
+  background: #ffffff;
+  border-bottom: 2px solid #e6e8ec;
+  width: 90px !important;
+  min-width: 90px;
+  overflow: visible !important;
+}
+
+/* ── Column header styling ── */
+.fc-caars-wrapper .fc-col-header-cell {
+  border-bottom: 2px solid #e6e8ec;
+  border-right: 1px solid #e6e8ec;
+  background: #ffffff;
+  padding: 0;
+}
+
+.fc-caars-wrapper .fc-col-header-cell-cushion {
+  color: inherit;
+  text-decoration: none;
+  padding: 0;
+  width: 100%;
+}
+
+/* ── Column (resource) fixed width ── */
+.fc-caars-wrapper .fc-resource-timegrid-day .fc-col-header-cell,
+.fc-caars-wrapper .fc-timegrid-col {
+  min-width: 280px;
+  width: 280px;
+}
+
+.fc-caars-wrapper .fc-timegrid-col {
+  border-right: 1px solid #e6e8ec;
+}
+
+/* ── Each time-slot row ── */
+.fc-caars-wrapper .fc-timegrid-slot {
+  height: 64px;
+  border-bottom: none;
+}
+
+/* Horizontal rule only in lane cells (not the time-label column) */
+.fc-caars-wrapper .fc-timegrid-slot-lane {
+  border-bottom: 1px solid #f4f5f6;
+  border-right: 1px solid #e6e8ec;
+}
+
+/* ── Remove FC border chrome ── */
+.fc-caars-wrapper .fc-scrollgrid {
+  border: none;
+}
+
+.fc-caars-wrapper .fc-scrollgrid-section > td {
+  border: none;
+}
+
+.fc-caars-wrapper .fc-scrollgrid td,
+.fc-caars-wrapper .fc-scrollgrid th {
+  border-color: #e6e8ec;
+}
+
+/* ── Event chrome removal ── */
+.fc-caars-wrapper .fc-timegrid-event-harness {
+  inset-inline-start: 4px !important;
+  inset-inline-end: 4px !important;
+}
+
+.fc-caars-wrapper .fc-timegrid-event {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+
+.fc-caars-wrapper .fc-event-main {
+  padding: 0;
+  height: 100%;
+}
+
+/* ── Now indicator line ── */
+.fc-caars-wrapper .fc-timegrid-now-indicator-line {
+  border-top: 2px solid #ff9500;
+  z-index: 6;
+}
+
+/* Arrow element: clear all default triangle CSS so nowIndicatorDidMount
+   can render a plain text label in-flow (position NOT overridden — the
+   parent container already has the correct top offset from FullCalendar) */
+.fc-caars-wrapper .fc-timegrid-now-indicator-arrow {
+  border: none !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+  position: static !important;
+  overflow: visible !important;
+}
+
+/* Ensure the entire now-indicator axis chain is never clipped */
+.fc-caars-wrapper .fc-timegrid-axis-frame,
+.fc-caars-wrapper .fc-timegrid-now-indicator-container {
+  overflow: visible !important;
+}
+
+/* ── Today column highlight ── */
+.fc-caars-wrapper .fc-day-today {
+  background: rgba(255, 149, 0, 0.04) !important;
+}
+
+/* ── Outer scroll container scrollbars ── */
+.fc-caars-wrapper::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.fc-caars-wrapper::-webkit-scrollbar-track {
+  background: #f4f5f6;
+  border-radius: 4px;
+}
+
+.fc-caars-wrapper::-webkit-scrollbar-thumb {
+  background: #b1b5c3;
+  border-radius: 4px;
+}
+
+.fc-caars-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #777e90;
+}
+
+.fc-caars-wrapper::-webkit-scrollbar-corner {
+  background: #f4f5f6;
+}

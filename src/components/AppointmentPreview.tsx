@@ -17,7 +17,7 @@ interface AppointmentPreviewProps {
 }
 
 const cardBaseClassName =
-  "w-[283px] items-start justify-center gap-0.5 rounded-[12px] border-none px-4 py-3 shadow-none";
+  "w-full items-start justify-center gap-0.5 rounded-[12px] border-none px-4 py-3 shadow-none";
 
 const AppointmentPreview: FC<AppointmentPreviewProps> = ({
   className,
