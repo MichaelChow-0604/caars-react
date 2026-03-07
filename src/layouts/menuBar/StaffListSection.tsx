@@ -7,6 +7,7 @@ import type { StaffMember } from './types';
 interface StaffListSectionProps {
   mode: 'day' | 'week';
   staffList: StaffMember[];
+  currentUserId?: string;
   checkedStaffIds: string[];
   selectedStaffId: string;
   onCheckAll: (checked: boolean) => void;
@@ -17,6 +18,7 @@ interface StaffListSectionProps {
 export function StaffListSection({
   mode,
   staffList,
+  currentUserId,
   checkedStaffIds,
   selectedStaffId,
   onCheckAll,
@@ -58,6 +60,7 @@ export function StaffListSection({
               onCheckedChange={(v) => onCheckStaff(staff.id, v === true)}
               label={staff.name}
               bold={false}
+              disabled={staff.id === currentUserId}
             />
           ))}
         </div>

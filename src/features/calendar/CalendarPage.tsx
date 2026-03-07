@@ -2,6 +2,7 @@ import type { StaffMember } from '@/layouts/MenuBar';
 import CalendarHeader from './CalendarHeader';
 import CalendarDayView from './CalendarDayView';
 import CalendarWeekView from './CalendarWeekView';
+import { DOMInspector } from '@/components/DOMInspector';
 
 interface CalendarPageProps {
   mode: 'day' | 'week';
@@ -9,6 +10,7 @@ interface CalendarPageProps {
   checkedStaff: StaffMember[];
   staffList: StaffMember[];
   selectedStaffId: string;
+  currentUserId: string;
   onModeChange: (mode: 'day' | 'week') => void;
   onDateChange: (date: Date) => void;
   onDoctorHeaderClick: (staffId: string) => void;
@@ -21,6 +23,7 @@ export default function CalendarPage({
   checkedStaff,
   staffList,
   selectedStaffId,
+  currentUserId,
   onModeChange,
   onDateChange,
   onDoctorHeaderClick,
@@ -30,6 +33,7 @@ export default function CalendarPage({
 
   return (
     <div className="flex flex-col h-full w-full overflow-hidden bg-caars-neutral-white">
+      <DOMInspector />
       <CalendarHeader
         mode={mode}
         selectedDate={selectedDate}
@@ -41,6 +45,7 @@ export default function CalendarPage({
         <CalendarDayView
           selectedDate={selectedDate}
           checkedStaff={checkedStaff}
+          currentUserId={currentUserId}
           onDoctorHeaderClick={onDoctorHeaderClick}
         />
       ) : (

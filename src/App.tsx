@@ -3,6 +3,11 @@ import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router'
 import MenuBar, { type StaffMember } from './layouts/MenuBar';
 import SearchBar from './layouts/SearchBar';
 import CalendarPage from './features/calendar/CalendarPage';
+import LoginPage from './features/auth/LoginPage';
+import { ProtectedRoute } from './features/auth/ProtectedRoute';
+import { PublicRoute } from './features/auth/PublicRoute';
+import { useUserStore } from './stores/userStore';
+import { useAuthStore } from './stores/authStore';
 
 const DEFAULT_STAFF_LIST: StaffMember[] = [
   { id: '1', name: 'Dr. Jane Doe' },
@@ -46,17 +51,39 @@ function CenterPlaceholder({ text }: { text: string }) {
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
+  const user = useUserStore((s) => s.user);
+  const logout = useAuthStore((s) => s.logout);
+  const clearUser = useUserStore((s) => s.clearUser);
+
+  const currentUserId = user ? String(user.user_id) : '';
+  const currentUser = user
+    ? { name: user.username, role: user.role }
+    : undefined;
+
+  const staffListWithUser = (() => {
+    const base = DEFAULT_STAFF_LIST;
+    if (!user) return base;
+    const userStaff: StaffMember = { id: String(user.user_id), name: user.username };
+    const exists = base.some((s) => s.id === userStaff.id);
+    return exists ? base : [userStaff, ...base];
+  })();
 
   const [mode, setMode] = useState<'day' | 'week'>('day');
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [checkedStaffIds, setCheckedStaffIds] = useState<string[]>(
-    DEFAULT_STAFF_LIST.map((s) => s.id),
+    staffListWithUser.map((s) => s.id),
   );
   const [selectedStaffId, setSelectedStaffId] = useState<string>(
-    DEFAULT_STAFF_LIST[0].id,
+    staffListWithUser[0]?.id ?? '',
   );
 
-  const checkedStaff = DEFAULT_STAFF_LIST.filter((s) => checkedStaffIds.includes(s.id));
+  const checkedStaff = staffListWithUser.filter((s) => checkedStaffIds.includes(s.id));
+
+  const handleSignOut = () => {
+    logout();
+    clearUser();
+    navigate('/login');
+  };
 
   const handleDateChange = (date: Date | undefined) => {
     if (date) setSelectedDate(date);
@@ -79,13 +106,16 @@ function App() {
 
   const activeNavItem = getActiveNavItem(location.pathname);
 
-  return (
-    <div className="flex h-screen overflow-hidden bg-caars-neutral-white">
+  const mainApp = (
+    <div className="flex flex-1 min-h-0 overflow-hidden bg-caars-neutral-white">
       <MenuBar
         mode={mode}
         activeNavItem={activeNavItem}
         onNavItemClick={handleNavItemClick}
-        staffList={DEFAULT_STAFF_LIST}
+        staffList={staffListWithUser}
+        currentUser={currentUser}
+        currentUserId={currentUserId}
+        onSignOut={handleSignOut}
         selectedDate={selectedDate}
         onDateChange={handleDateChange}
         checkedStaffIds={checkedStaffIds}
@@ -108,8 +138,9 @@ function App() {
                   mode={mode}
                   selectedDate={selectedDate}
                   checkedStaff={checkedStaff}
-                  staffList={DEFAULT_STAFF_LIST}
+                  staffList={staffListWithUser}
                   selectedStaffId={selectedStaffId}
+                  currentUserId={currentUserId}
                   onModeChange={setMode}
                   onDateChange={setSelectedDate}
                   onDoctorHeaderClick={handleDoctorHeaderClick}
@@ -133,6 +164,25 @@ function App() {
           </Routes>
         </div>
       </main>
+    </div>
+  );
+
+  return (
+    <div className="flex flex-1 min-h-0 min-w-0 flex-col overflow-hidden">
+      <Routes>
+        <Route
+          path="/login"
+          element={
+            <PublicRoute>
+              <LoginPage />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/*"
+          element={<ProtectedRoute>{mainApp}</ProtectedRoute>}
+        />
+      </Routes>
     </div>
   );
 }

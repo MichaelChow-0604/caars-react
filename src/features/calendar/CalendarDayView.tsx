@@ -14,6 +14,7 @@ import {
 interface CalendarDayViewProps {
   selectedDate: Date;
   checkedStaff: StaffMember[];
+  currentUserId: string;
   onDoctorHeaderClick: (staffId: string) => void;
 }
 
@@ -23,6 +24,7 @@ const AXIS_WIDTH = 90;
 export default function CalendarDayView({
   selectedDate,
   checkedStaff,
+  currentUserId,
   onDoctorHeaderClick,
 }: CalendarDayViewProps) {
   const calendarRef = useRef<FullCalendar>(null);
@@ -47,13 +49,18 @@ export default function CalendarDayView({
   const appointments = getAppointmentsForDate(FAKE_APPOINTMENTS, selectedDate);
   const appointmentCounts = countAppointmentsPerResource(appointments);
 
-  const resources = checkedStaff.map((s) => ({
+  const sortedStaff = [...checkedStaff].sort((a, b) =>
+    a.id === currentUserId ? -1 : b.id === currentUserId ? 1 : 0,
+  );
+
+  const resources = sortedStaff.map((s) => ({
     id: s.id,
     title: s.name,
+    classNames: s.id === currentUserId ? ['fc-caars-user-col'] : [],
     extendedProps: { appointmentCount: appointmentCounts[s.id] ?? 0 },
   }));
 
-  const totalWidth = checkedStaff.length * COLUMN_WIDTH + AXIS_WIDTH;
+  const totalWidth = sortedStaff.length * COLUMN_WIDTH + AXIS_WIDTH;
 
   return (
     // Single scroll container: overflowX scroll (always visible), overflowY auto
@@ -61,8 +68,11 @@ export default function CalendarDayView({
       className="fc-caars-wrapper flex-1 min-h-0"
       style={{ overflowX: "scroll", overflowY: "auto" }}
     >
-      {/* Fixed-width inner forces horizontal overflow when there are many columns */}
-      <div style={{ width: `${totalWidth}px` }}>
+      {/* Fixed-width inner forces horizontal overflow when many columns; border-right ensures right edge visible */}
+      <div
+        className="border-r border-caars-neutral-grey-4"
+        style={{ width: `${totalWidth}px` }}
+      >
         <FullCalendar
           ref={calendarRef}
           schedulerLicenseKey="CC-Attribution-NonCommercial-NoDerivatives"
@@ -113,6 +123,17 @@ export default function CalendarDayView({
           headerToolbar={false}
           allDaySlot={false}
           resources={resources}
+          datesSet={() => {
+            const wrapper = document.querySelector('.fc-caars-wrapper');
+            if (!wrapper) return;
+            wrapper.querySelectorAll('.fc-caars-user-col').forEach((el) => el.classList.remove('fc-caars-user-col'));
+            const headerCells = wrapper.querySelectorAll('.fc-col-header-cell');
+            const firstResourceHeader = headerCells[0];
+            if (firstResourceHeader) firstResourceHeader.classList.add('fc-caars-user-col');
+            const bodyCols = wrapper.querySelectorAll('.fc-timegrid-col:not(.fc-timegrid-axis)');
+            const firstResourceCol = bodyCols[0];
+            if (firstResourceCol) firstResourceCol.classList.add('fc-caars-user-col');
+          }}
           events={appointments}
           resourceLabelContent={(arg) =>
             renderResourceLabel(arg, onDoctorHeaderClick)

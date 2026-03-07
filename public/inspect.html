@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DOM Inspector</title>
+  <style>
+    body { font-family: monospace; padding: 20px; }
+    pre { background: #f4f4f4; padding: 15px; overflow: auto; }
+    button { padding: 10px 20px; margin: 10px 0; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Calendar DOM Inspector</h1>
+  <button onclick="runInspection()">Run Inspection</button>
+  <button onclick="openCalendar()">Open Calendar in New Tab</button>
+  <pre id="results">Results will appear here...</pre>
+
+  <script>
+    function openCalendar() {
+      window.open('http://localhost:5173/calendar', '_blank');
+    }
+
+    function runInspection() {
+      const results = document.getElementById('results');
+      results.textContent = 'Please run this inspection directly on the calendar page.\n\nOpen the calendar page, press F12, and paste the inspection code into the console.';
+    }
+  </script>
+</body>
+</html>

@@ -17,6 +17,7 @@ export interface MenuBarProps {
   onNavItemClick?: (item: string) => void;
   staffList?: StaffMember[];
   currentUser?: CurrentUser;
+  currentUserId?: string;
   onSignOut?: () => void;
   selectedDate?: Date;
   onDateChange?: (date: Date | undefined) => void;
@@ -56,6 +57,7 @@ export default function MenuBar({
   onNavItemClick,
   staffList = DEFAULT_STAFF_LIST,
   currentUser = DEFAULT_USER,
+  currentUserId,
   onSignOut,
   selectedDate,
   onDateChange,
@@ -86,12 +88,17 @@ export default function MenuBar({
   };
 
   const handleCheckAll = (checked: boolean) => {
-    const next = checked ? staffList.map((s) => s.id) : [];
+    const next = checked
+      ? staffList.map((s) => s.id)
+      : currentUserId
+        ? [currentUserId]
+        : [];
     setInternalChecked(next);
     onCheckedStaffChange?.(next);
   };
 
   const handleCheckStaff = (id: string, checked: boolean) => {
+    if (!checked && id === currentUserId) return;
     const next = checked
       ? [...checkedIds, id]
       : checkedIds.filter((c) => c !== id);
@@ -130,6 +137,7 @@ export default function MenuBar({
             <StaffListSection
               mode={mode}
               staffList={staffList}
+              currentUserId={currentUserId}
               checkedStaffIds={checkedIds}
               selectedStaffId={selectedId}
               onCheckAll={handleCheckAll}

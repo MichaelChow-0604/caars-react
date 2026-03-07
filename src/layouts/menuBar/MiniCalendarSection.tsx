@@ -1,5 +1,5 @@
 import type { DayButton } from 'react-day-picker';
-import { eachDayOfInterval, endOfWeek, startOfWeek } from 'date-fns';
+import { addDays, eachDayOfInterval, startOfWeek } from 'date-fns';
 
 import { cn } from '@/lib/utils';
 import { Calendar } from '@/components/ui/calendar';
@@ -30,10 +30,11 @@ export function MiniCalendarSection({
           modifiers={
             mode === 'week' && date
               ? {
-                  weekRange: eachDayOfInterval({
-                    start: startOfWeek(date, { weekStartsOn: 1 }),
-                    end: endOfWeek(date, { weekStartsOn: 1 }),
-                  }),
+                  weekRange: (() => {
+                    const monday = startOfWeek(date, { weekStartsOn: 1 });
+                    const friday = addDays(monday, 4);
+                    return eachDayOfInterval({ start: monday, end: friday });
+                  })(),
                 }
               : undefined
           }
