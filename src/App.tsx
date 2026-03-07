@@ -3,6 +3,7 @@ import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router'
 import MenuBar, { type StaffMember } from './layouts/MenuBar';
 import SearchBar from './layouts/SearchBar';
 import CalendarPage from './features/calendar/CalendarPage';
+import PatientPage from './features/patient/PatientPage';
 import LoginPage from './features/auth/LoginPage';
 import { ProtectedRoute } from './features/auth/ProtectedRoute';
 import { PublicRoute } from './features/auth/PublicRoute';
@@ -148,10 +149,7 @@ function App() {
                 />
               }
             />
-            <Route
-              path={NAV_PATHS.patient}
-              element={<CenterPlaceholder text="Patient (placeholder)" />}
-            />
+            <Route path={NAV_PATHS.patient} element={<PatientPage />} />
             <Route
               path={NAV_PATHS.setting}
               element={<CenterPlaceholder text="Setting (placeholder)" />}

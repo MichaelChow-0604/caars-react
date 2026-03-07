@@ -33,7 +33,7 @@ export default function SearchBar() {
   }, []);
 
   return (
-    <div ref={containerRef} className="relative w-full max-w-[720px]" onBlur={handleBlur}>
+    <div ref={containerRef} className="relative w-[80%]" onBlur={handleBlur}>
       <CInput
         placeholder="Patient / Appointment"
         value={query}
