@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { cn } from "@/lib/utils";
+import { useLayoutStore } from "@/stores/layoutStore";
 import { IconAccount, IconDate, IconInfo, IconSetting } from "@/lib/icon";
 
 import { MenuTabs } from "@/layouts/menuBar/MenuTabs";
@@ -66,7 +67,8 @@ export default function MenuBar({
   selectedStaffId,
   onSelectedStaffChange,
 }: MenuBarProps) {
-  const [collapsed, setCollapsed] = useState(false);
+  const collapsed = useLayoutStore((s) => s.menuBarCollapsed);
+  const setMenuBarCollapsed = useLayoutStore((s) => s.setMenuBarCollapsed);
 
   const [internalDate, setInternalDate] = useState<Date | undefined>(
     new Date()
@@ -120,7 +122,7 @@ export default function MenuBar({
     >
       <MenuTabs
         collapsed={collapsed}
-        onCollapsedChange={setCollapsed}
+        onCollapsedChange={setMenuBarCollapsed}
         items={NAV_ITEMS}
         activeNavItem={activeNavItem}
         onNavItemClick={onNavItemClick}

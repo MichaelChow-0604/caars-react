@@ -75,8 +75,10 @@
   --font-size-caars-h2: var(--caars-text-h2);
   --font-size-caars-h3: var(--caars-text-h3);
   --font-size-caars-h4: var(--caars-text-h4);
+  --font-size-caars-h5: var(--caars-text-h5);
   --font-size-caars-body-1: var(--caars-text-body-1);
   --font-size-caars-body-2: var(--caars-text-body-2);
+  --font-size-caars-body-3: var(--caars-text-body-3);
   --font-size-caars-button-1: var(--caars-text-button-1);
   --font-size-caars-button-2: var(--caars-text-button-2);
   --font-size-caars-caption: var(--caars-text-caption);
@@ -85,8 +87,10 @@
   --line-height-caars-h2: var(--caars-leading-h2);
   --line-height-caars-h3: var(--caars-leading-h3);
   --line-height-caars-h4: var(--caars-leading-h4);
+  --line-height-caars-h5: var(--caars-leading-h5);
   --line-height-caars-body-1: var(--caars-leading-body-1);
   --line-height-caars-body-2: var(--caars-leading-body-2);
+  --line-height-caars-body-3: var(--caars-leading-body-3);
   --line-height-caars-button-1: var(--caars-leading-button-1);
   --line-height-caars-button-2: var(--caars-leading-button-2);
   --line-height-caars-caption: var(--caars-leading-caption);
@@ -163,8 +167,10 @@
   --caars-text-h2: 2rem;
   --caars-text-h3: 1.5rem;
   --caars-text-h4: 1.25rem;
+  --caars-text-h5: 1.125rem;
   --caars-text-body-1: 1rem;
   --caars-text-body-2: 0.875rem;
+  --caars-text-body-3: 0.75rem;
   --caars-text-button-1: 1rem;
   --caars-text-button-2: 0.875rem;
   --caars-text-caption: 0.625rem;
@@ -173,8 +179,10 @@
   --caars-leading-h2: 1.3;
   --caars-leading-h3: 1.3;
   --caars-leading-h4: 1.3;
+  --caars-leading-h5: 1.4;
   --caars-leading-body-1: 1.5;
   --caars-leading-body-2: 1.5;
+  --caars-leading-body-3: 1.4;
   --caars-leading-button-1: 1.4;
   --caars-leading-button-2: 1.4;
   --caars-leading-caption: 1.4;
@@ -485,6 +493,35 @@
 }
 
 .fc-caars-wrapper::-webkit-scrollbar-corner {
+  background: #f4f5f6;
+}
+
+/* ─── Timeline scroll container ───────────────────────────────────────────── */
+.timeline-scroll-wrapper {
+  scrollbar-color: #b1b5c3 #f4f5f6;
+  scrollbar-width: thin;
+}
+
+.timeline-scroll-wrapper::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.timeline-scroll-wrapper::-webkit-scrollbar-track {
+  background: #f4f5f6;
+  border-radius: 4px;
+}
+
+.timeline-scroll-wrapper::-webkit-scrollbar-thumb {
+  background: #b1b5c3;
+  border-radius: 4px;
+}
+
+.timeline-scroll-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #777e90;
+}
+
+.timeline-scroll-wrapper::-webkit-scrollbar-corner {
   background: #f4f5f6;
 }
 

@@ -51,7 +51,7 @@ export default function PatientHomePage({ patientId }: PatientHomePageProps) {
 
       <Tabs
         defaultValue="clinical-preview"
-        className="flex flex-1 min-h-0 min-w-0 flex-col overflow-hidden"
+        className="flex flex-1 min-h-0 min-w-0 flex-col gap-0 overflow-hidden"
       >
         <div className="shrink-0 border-b-2 border-caars-neutral-grey-4 bg-caars-neutral-grey-2">
           <TabsList variant="line" className="flex h-auto w-full rounded-none border-0 bg-transparent p-0 gap-8">
@@ -85,9 +85,9 @@ export default function PatientHomePage({ patientId }: PatientHomePageProps) {
           </TabsContent>
           <TabsContent
             value="timeline"
-            className="m-0 flex-1 min-h-0 overflow-hidden data-[state=inactive]:hidden"
+            className="m-0 flex min-h-0 flex-1 flex-col overflow-hidden data-[state=inactive]:hidden"
           >
-            <TimelineTab />
+            <TimelineTab patientId={patientId} />
           </TabsContent>
           <TabsContent
             value="patient-info"
