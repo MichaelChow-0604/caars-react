@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { IconChevronDown, IconChevronUp } from '@/lib/icon';
 import CButton from '@/components/caars-ui/CButton';
 import { Input } from '@/components/ui/input';
+import PreviousSummariesSection from './PreviousSummariesSection';
 import { cn } from '@/lib/utils';
 
 const LOREM_MEDICAL =
@@ -76,15 +77,7 @@ export default function ClinicalPreviewTab() {
         </p>
       </div>
 
-      <button
-        type="button"
-        className="flex items-center gap-1 self-start rounded-lg py-2 pr-1"
-      >
-        <IconChevronDown className="size-4 shrink-0 text-caars-neutral-grey-6" />
-        <span className="font-caars-header text-[15px] leading-[1.4] font-semibold tracking-[0.3px] text-caars-neutral-grey-6">
-          Show previous summaries
-        </span>
-      </button>
+      <PreviousSummariesSection />
     </div>
   );
 }

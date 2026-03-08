@@ -31,7 +31,7 @@ export default function PatientPage() {
             </TabsTrigger>
           </TabsList>
         </div>
-        <div className="flex-1 min-h-0 overflow-hidden flex flex-col">
+        <div className="flex-1 min-h-0 overflow-hidden flex flex-col mt-1">
           <TabsContent value="recently-viewed" className="flex flex-col flex-1 min-h-0 m-0 data-[state=inactive]:hidden">
             <PatientTable data={MOCK_RECENTLY_VIEWED} onRowClick={handleRowClick} />
           </TabsContent>
