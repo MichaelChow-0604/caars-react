@@ -103,9 +103,9 @@ export default function PatientHomePage({ patientId }: PatientHomePageProps) {
           </TabsContent>
           <TabsContent
             value="patient-documents"
-            className="m-0 flex-1 min-h-0 overflow-hidden data-[state=inactive]:hidden"
+            className="m-0 flex flex-1 min-h-0 min-w-0 flex-col overflow-hidden data-[state=inactive]:hidden"
           >
-            <PatientDocumentsTab />
+            <PatientDocumentsTab patientId={patientId} />
           </TabsContent>
         </div>
       </Tabs>
