@@ -116,16 +116,17 @@ export function TimelineGrid({
         }}
       >
         <div
-          className="sticky left-0 top-0 z-20 flex h-14 items-center border-b border-l-2 border-r-2 border-caars-neutral-grey-4 bg-caars-neutral-white px-3"
+          className="sticky left-0 top-0 z-20 flex h-14 items-center border-caars-neutral-grey-4 bg-caars-neutral-white px-3"
           style={{ minWidth: MONTH_COLUMN_WIDTH }}
         />
         {categoryOrder.map((catId, catIndex) => {
           const cat = categoryMap.get(catId);
           const isFirstCategory = catIndex === 0;
           return (
+            /* Category row */
             <div
               key={catId}
-              className={`sticky top-0 z-20 flex h-14 items-center justify-start overflow-visible border-b border-r border-caars-neutral-grey-4 bg-caars-neutral-white pr-4 ${isFirstCategory ? 'border-l border-caars-neutral-grey-4' : ''}`}
+              className={`sticky top-0 z-20 flex h-14 items-center justify-start overflow-visible border-l border-caars-neutral-grey-4 bg-caars-neutral-white pr-4`}
               style={{
                 minWidth: COLUMN_WIDTH,
                 paddingLeft: 0,
@@ -149,19 +150,21 @@ export function TimelineGrid({
           const monthMap = grouped.get(monthKey);
           return (
             <Fragment key={monthKey}>
+              {/* Month row */}
               <div
-                className="sticky left-0 z-10 col-span-full flex h-8 flex-row items-center gap-2 rounded border border-caars-neutral-grey-4 bg-caars-secondary-2 px-4"
+                className="sticky left-0 z-10 col-span-full flex h-8 flex-row items-center gap-2 rounded bg-caars-secondary-2 px-4 mx-2"
                 style={{ gridColumn: '1 / -1' }}
               >
-                <span className="font-caars-header text-caars-caption font-semibold leading-caars-caption text-caars-neutral-black">
+                <span className="font-caars-header text-caars-caption font-semibold leading-caars-caption text-caars-secondary-3">
                   {monthLabel}
                 </span>
-                <span className="font-caars-header text-caars-overline leading-caars-overline text-caars-success-1">
-                  ({eventCount} Event{eventCount !== 1 ? 's' : ''})
+                <span className="font-caars-header text-caars-overline leading-caars-overline text-caars-secondary-3">
+                  ({eventCount})
                 </span>
               </div>
+              {/* Month Column */}
               <div
-                className="sticky left-0 z-5 flex items-center border-b border-r-2 border-caars-neutral-grey-4 bg-caars-neutral-white"
+                className="sticky left-0 z-5 flex items-center bg-caars-neutral-white"
                 style={{ minWidth: MONTH_COLUMN_WIDTH }}
               />
               {categoryOrder.map((catId) => {
@@ -169,14 +172,14 @@ export function TimelineGrid({
                 return (
                   <div
                     key={`${monthKey}-${catId}`}
-                    className={`flex flex-col gap-2 border-b border-r border-caars-neutral-grey-4 bg-caars-neutral-white pl-3 ${isCompactView ? 'justify-center py-2' : 'py-3'}`}
+                    className={`flex flex-col gap-2 border-l border-caars-neutral-grey-4 bg-caars-neutral-white pl-3 ${isCompactView ? 'justify-center py-2' : 'py-3'}`}
                     style={{
                       minWidth: COLUMN_WIDTH,
                       paddingRight: CELL_PADDING_RIGHT,
                     }}
                   >
                     {isCompactView ? (
-                      <div className="flex flex-col gap-2">
+                      <div className="flex flex-col items-start gap-2 py-2 -ml-4 z-50">
                         {cellEvents.map((evt) => (
                           <CompactBullet
                             key={evt.id}

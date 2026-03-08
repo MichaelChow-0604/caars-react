@@ -144,7 +144,7 @@ export default function TimelineTab({ patientId }: TimelineTabProps) {
   }
 
   return (
-    <div className="flex min-h-0 min-w-0 flex-1 flex-row overflow-hidden">
+    <div className="flex min-h-0 min-w-0 flex-1 flex-row pt-1">
       <TimelineFilterPanel
         isCompactView={isCompactView}
         onCompactViewChange={setIsCompactView}
