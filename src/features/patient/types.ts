@@ -5,4 +5,7 @@ export interface Patient {
   dob: string;
   nhsNumber: string;
   lastAppointment: string;
+  address?: string;
+  allergies?: string[];
+  incomingAppointment?: string;
 }

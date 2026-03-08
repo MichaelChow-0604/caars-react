@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router";
 import { format } from "date-fns";
 import FullCalendar from "@fullcalendar/react";
 import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
@@ -27,6 +28,7 @@ export default function CalendarDayView({
   currentUserId,
   onDoctorHeaderClick,
 }: CalendarDayViewProps) {
+  const navigate = useNavigate();
   const calendarRef = useRef<FullCalendar>(null);
 
   // Navigate calendar when date changes
@@ -138,7 +140,7 @@ export default function CalendarDayView({
           resourceLabelContent={(arg) =>
             renderResourceLabel(arg, onDoctorHeaderClick)
           }
-          eventContent={renderEventContent}
+          eventContent={(arg) => renderEventContent(arg, navigate)}
           // height="auto" makes FC expand to full content height with no
           // internal scrollbar — the outer div becomes the single scroll source
           height="auto"
@@ -174,8 +176,12 @@ function renderResourceLabel(
   );
 }
 
-function renderEventContent(arg: EventContentArg) {
-  const { patientName, time, state } = arg.event.extendedProps as {
+function renderEventContent(
+  arg: EventContentArg,
+  navigate: (path: string) => void
+) {
+  const { patientId, patientName, time, state } = arg.event.extendedProps as {
+    patientId: string;
     patientName: string;
     time: string;
     state: "active" | "cancelled" | "expired";
@@ -187,6 +193,7 @@ function renderEventContent(arg: EventContentArg) {
       line2={time}
       state={state}
       className="w-full h-full rounded-[8px] border-none px-3 py-2 shadow-none overflow-hidden"
+      onClick={() => navigate(`/patient/${patientId}`)}
     />
   );
 }

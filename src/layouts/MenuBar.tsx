@@ -133,18 +133,22 @@ export default function MenuBar({
             date={date}
             onDateChange={handleDateChange}
           />
-          <div className="flex-1 min-h-0 overflow-y-auto">
-            <StaffListSection
-              mode={mode}
-              staffList={staffList}
-              currentUserId={currentUserId}
-              checkedStaffIds={checkedIds}
-              selectedStaffId={selectedId}
-              onCheckAll={handleCheckAll}
-              onCheckStaff={handleCheckStaff}
-              onSelectStaff={handleSelectStaff}
-            />
-          </div>
+          {activeNavItem === 'calendar' ? (
+            <div className="flex-1 min-h-0 overflow-y-auto">
+              <StaffListSection
+                mode={mode}
+                staffList={staffList}
+                currentUserId={currentUserId}
+                checkedStaffIds={checkedIds}
+                selectedStaffId={selectedId}
+                onCheckAll={handleCheckAll}
+                onCheckStaff={handleCheckStaff}
+                onSelectStaff={handleSelectStaff}
+              />
+            </div>
+          ) : (
+            <div className="flex-1 min-h-0" />
+          )}
         </>
       ) : (
         <div className="flex-1 min-h-0" />

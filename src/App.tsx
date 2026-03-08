@@ -4,6 +4,8 @@ import MenuBar, { type StaffMember } from './layouts/MenuBar';
 import SearchBar from './layouts/SearchBar';
 import CalendarPage from './features/calendar/CalendarPage';
 import PatientPage from './features/patient/PatientPage';
+import PatientHomePage from './features/patient/PatientHomePage';
+import DailyScheduleSidebar from './features/patient/DailyScheduleSidebar';
 import LoginPage from './features/auth/LoginPage';
 import { ProtectedRoute } from './features/auth/ProtectedRoute';
 import { PublicRoute } from './features/auth/PublicRoute';
@@ -106,6 +108,7 @@ function App() {
   };
 
   const activeNavItem = getActiveNavItem(location.pathname);
+  const isPatientHome = location.pathname.match(/^\/patient\/[^/]+$/);
 
   const mainApp = (
     <div className="flex flex-1 min-h-0 overflow-hidden bg-caars-neutral-white">
@@ -125,41 +128,54 @@ function App() {
         onSelectedStaffChange={setSelectedStaffId}
       />
 
+      {isPatientHome && (
+        <DailyScheduleSidebar
+          staffList={staffListWithUser}
+          selectedDate={selectedDate}
+          onDateChange={(d) => handleDateChange(d)}
+          patientId={location.pathname.split('/')[2]}
+        />
+      )}
+
       <main className="flex flex-col flex-1 min-w-0 min-h-0 overflow-hidden">
         <div className="flex items-center justify-center px-6 py-3 border-b border-caars-neutral-grey-4 shrink-0">
           <SearchBar />
         </div>
-        <div className="flex-1 min-h-0 overflow-hidden">
-          <Routes>
-            <Route path="/" element={<Navigate to={NAV_PATHS.calendar} replace />} />
-            <Route
-              path={NAV_PATHS.calendar}
-              element={
-                <CalendarPage
-                  mode={mode}
-                  selectedDate={selectedDate}
-                  checkedStaff={checkedStaff}
-                  staffList={staffListWithUser}
-                  selectedStaffId={selectedStaffId}
-                  currentUserId={currentUserId}
-                  onModeChange={setMode}
-                  onDateChange={setSelectedDate}
-                  onDoctorHeaderClick={handleDoctorHeaderClick}
-                  onWeekdayHeaderClick={handleWeekdayHeaderClick}
-                />
-              }
-            />
-            <Route path={NAV_PATHS.patient} element={<PatientPage />} />
-            <Route
-              path={NAV_PATHS.setting}
-              element={<CenterPlaceholder text="Setting (placeholder)" />}
-            />
-            <Route
-              path={NAV_PATHS['bug-report']}
-              element={<CenterPlaceholder text="Bug Report (placeholder)" />}
-            />
-            <Route path="*" element={<Navigate to={NAV_PATHS.calendar} replace />} />
-          </Routes>
+        <div className="flex flex-col flex-1 min-h-0 overflow-hidden">
+          {isPatientHome ? (
+            <PatientHomePage patientId={location.pathname.split('/')[2]} />
+          ) : (
+            <Routes>
+              <Route path="/" element={<Navigate to={NAV_PATHS.calendar} replace />} />
+              <Route
+                path={NAV_PATHS.calendar}
+                element={
+                  <CalendarPage
+                    mode={mode}
+                    selectedDate={selectedDate}
+                    checkedStaff={checkedStaff}
+                    staffList={staffListWithUser}
+                    selectedStaffId={selectedStaffId}
+                    currentUserId={currentUserId}
+                    onModeChange={setMode}
+                    onDateChange={setSelectedDate}
+                    onDoctorHeaderClick={handleDoctorHeaderClick}
+                    onWeekdayHeaderClick={handleWeekdayHeaderClick}
+                  />
+                }
+              />
+              <Route path={NAV_PATHS.patient} element={<PatientPage />} />
+              <Route
+                path={NAV_PATHS.setting}
+                element={<CenterPlaceholder text="Setting (placeholder)" />}
+              />
+              <Route
+                path={NAV_PATHS['bug-report']}
+                element={<CenterPlaceholder text="Bug Report (placeholder)" />}
+              />
+              <Route path="*" element={<Navigate to={NAV_PATHS.calendar} replace />} />
+            </Routes>
+          )}
         </div>
       </main>
     </div>

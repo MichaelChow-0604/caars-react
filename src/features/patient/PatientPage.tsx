@@ -1,11 +1,14 @@
+import { useNavigate } from 'react-router';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { PatientTable } from './PatientTable';
 import { MOCK_RECENTLY_VIEWED, MOCK_SEARCH_RESULTS } from './patientData';
 import type { Patient } from './types';
 
 export default function PatientPage() {
+  const navigate = useNavigate();
+
   const handleRowClick = (patient: Patient) => {
-    console.log('Patient clicked:', patient.id);
+    navigate(`/patient/${patient.id}`);
   };
 
   return (

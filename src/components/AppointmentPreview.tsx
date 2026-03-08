@@ -14,6 +14,7 @@ interface AppointmentPreviewProps {
   line1?: string;
   line2?: string;
   state?: AppointmentState;
+  onClick?: () => void;
 }
 
 const cardBaseClassName =
@@ -24,6 +25,7 @@ const AppointmentPreview: FC<AppointmentPreviewProps> = ({
   line1 = "Betty Wong, 35F",
   line2 = "11:30am",
   state = "active",
+  onClick,
 }) => {
   if (state === "expired") {
     return (
@@ -80,7 +82,7 @@ const AppointmentPreview: FC<AppointmentPreviewProps> = ({
       )}
       data-state="active"
     >
-      <button type="button">
+      <button type="button" onClick={onClick}>
         <CardTitle className="font-caars-header text-caars-body-1 leading-caars-body-1 font-semibold text-caars-success-1">
           {line1}
         </CardTitle>
