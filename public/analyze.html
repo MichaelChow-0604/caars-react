@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendar DOM Analysis</title>
+  <style>
+    body {
+      font-family: monospace;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .result {
+      background: white;
+      padding: 15px;
+      margin: 10px 0;
+      border-left: 4px solid #4CAF50;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .error {
+      border-left-color: #f44336;
+    }
+    h2 {
+      margin-top: 30px;
+      color: #333;
+    }
+    pre {
+      background: #eee;
+      padding: 10px;
+      overflow-x: auto;
+    }
+    button {
+      background: #2196F3;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 10px 5px;
+    }
+    button:hover {
+      background: #0b7dda;
+    }
+  </style>
+</head>
+<body>
+  <h1>Calendar DOM Analysis Tool</h1>
+  
+  <button onclick="runAnalysis()">Run Analysis on Current Page</button>
+  <button onclick="window.location.href='/calendar'">Go to Calendar</button>
+  
+  <div id="results"></div>
+
+  <script>
+    function runAnalysis() {
+      const resultsEl = document.getElementById('results');
+      resultsEl.innerHTML = '<h2>Analysis Results:</h2>';
+      
+      const isCalendarPage = window.location.pathname === '/calendar';
+      if (!isCalendarPage) {
+        resultsEl.innerHTML += `
+          <div class="result error">
+            <strong>Error:</strong> This tool must be run on the calendar page.
+            <br>Click "Go to Calendar" button above.
+          </div>
+        `;
+        return;
+      }
+
+      // Check for FullCalendar elements
+      const headerSection = document.querySelector('.fc-scrollgrid-section-header');
+      const headerScroller = headerSection?.querySelector('.fc-scroller');
+      const timegridCols = document.querySelectorAll('.fc-timegrid-col');
+      const timegridCol = Array.from(timegridCols).find(col => !col.closest('.fc-timegrid-axis'));
+      const headerCells = document.querySelectorAll('.fc-col-header-cell');
+      const scrollgrid = document.querySelector('.fc-scrollgrid');
+      const lastTimegridCol = document.querySelector('.fc-timegrid-col:last-of-type');
+
+      // Helper function
+      function getComputed(el, prop) {
+        if (!el) return 'N/A';
+        return window.getComputedStyle(el).getPropertyValue(prop);
+      }
+
+      // 1. Header Section
+      resultsEl.innerHTML += `
+        <div class="result">
+          <h3>1. .fc-scrollgrid-section-header</h3>
+          <strong>Exists:</strong> ${!!headerSection}<br>
+          <strong>Computed Width:</strong> ${getComputed(headerSection, 'width')}<br>
+          <strong>offsetWidth:</strong> ${headerSection?.offsetWidth || 'N/A'}px<br>
+          <strong>clientWidth:</strong> ${headerSection?.clientWidth || 'N/A'}px<br>
+        </div>
+      `;
+
+      // 2. Header Scroller
+      resultsEl.innerHTML += `
+        <div class="result">
+          <h3>2. .fc-scroller (inside header section)</h3>
+          <strong>Exists:</strong> ${!!headerScroller}<br>
+          <strong>Computed padding-right:</strong> ${getComputed(headerScroller, 'padding-right')}<br>
+          <strong>Inline style padding-right:</strong> ${headerScroller?.style.paddingRight || 'none'}<br>
+          <strong>offsetWidth:</strong> ${headerScroller?.offsetWidth || 'N/A'}px<br>
+        </div>
+      `;
+
+      // 3. Timegrid Col (body column)
+      resultsEl.innerHTML += `
+        <div class="result">
+          <h3>3. .fc-timegrid-col (resource body column)</h3>
+          <strong>Exists:</strong> ${!!timegridCol}<br>
+          <strong>Computed border-right:</strong> ${getComputed(timegridCol, 'border-right')}<br>
+          <strong>Computed border-right-width:</strong> ${getComputed(timegridCol, 'border-right-width')}<br>
+          <strong>Computed border-right-style:</strong> ${getComputed(timegridCol, 'border-right-style')}<br>
+          <strong>Computed border-right-color:</strong> ${getComputed(timegridCol, 'border-right-color')}<br>
+        </div>
+      `;
+
+      // 4. Col Header Cell
+      const firstHeaderCell = headerCells[0];
+      resultsEl.innerHTML += `
+        <div class="result">
+          <h3>4. .fc-col-header-cell (header for Dr. Jane Doe)</h3>
+          <strong>Exists:</strong> ${!!firstHeaderCell}<br>
+          <strong>Text:</strong> ${firstHeaderCell?.textContent.substring(0, 50) || 'N/A'}<br>
+          <strong>Computed border-right:</strong> ${getComputed(firstHeaderCell, 'border-right')}<br>
+          <strong>Computed border-right-width:</strong> ${getComputed(firstHeaderCell, 'border-right-width')}<br>
+          <strong>Computed border-right-style:</strong> ${getComputed(firstHeaderCell, 'border-right-style')}<br>
+          <strong>Computed border-right-color:</strong> ${getComputed(firstHeaderCell, 'border-right-color')}<br>
+        </div>
+      `;
+
+      // 5. Scrollgrid
+      resultsEl.innerHTML += `
+        <div class="result">
+          <h3>5. .fc-scrollgrid (main table)</h3>
+          <strong>Exists:</strong> ${!!scrollgrid}<br>
+          <strong>Computed border-collapse:</strong> ${getComputed(scrollgrid, 'border-collapse')}<br>
+          <strong>Computed border-right:</strong> ${getComputed(scrollgrid, 'border-right')}<br>
+        </div>
+      `;
+
+      // 6. Last Timegrid Col
+      resultsEl.innerHTML += `
+        <div class="result">
+          <h3>6. Last .fc-timegrid-col</h3>
+          <strong>Exists:</strong> ${!!lastTimegridCol}<br>
+          <strong>Computed border-right:</strong> ${getComputed(lastTimegridCol, 'border-right')}<br>
+          <strong>Computed border-right-width:</strong> ${getComputed(lastTimegridCol, 'border-right-width')}<br>
+          <strong>Computed border-right-style:</strong> ${getComputed(lastTimegridCol, 'border-right-style')}<br>
+          <strong>Computed border-right-color:</strong> ${getComputed(lastTimegridCol, 'border-right-color')}<br>
+        </div>
+      `;
+
+      // 7. CSS Rules Analysis
+      if (timegridCol) {
+        const matchedRules = [];
+        for (const sheet of document.styleSheets) {
+          try {
+            for (const rule of sheet.cssRules) {
+              if (rule.style && rule.selectorText) {
+                try {
+                  if (timegridCol.matches(rule.selectorText)) {
+                    const br = rule.style.borderRight || rule.style.borderRightWidth;
+                    if (br) {
+                      matchedRules.push({
+                        selector: rule.selectorText,
+                        borderRight: rule.style.borderRight,
+                        borderRightWidth: rule.style.borderRightWidth,
+                        href: sheet.href || 'inline'
+                      });
+                    }
+                  }
+                } catch (e) {}
+              }
+            }
+          } catch (e) {}
+        }
+
+        resultsEl.innerHTML += `
+          <div class="result">
+            <h3>7. CSS Rules affecting .fc-timegrid-col border-right</h3>
+            <pre>${JSON.stringify(matchedRules, null, 2)}</pre>
+          </div>
+        `;
+      }
+    }
+
+    // Auto-run if on calendar page
+    if (window.location.pathname === '/calendar') {
+      window.addEventListener('load', () => {
+        setTimeout(runAnalysis, 1000);
+      });
+    }
+  </script>
+</body>
+</html>

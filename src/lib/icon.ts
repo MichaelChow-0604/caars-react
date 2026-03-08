@@ -28,6 +28,7 @@ export {
   EyeOff as IconEyeClose,
   MessageCircleMore as IconCommentDots,
   Calendar as IconDate,
+  ClipboardCheck as IconTask,
 
   // People
   User as IconAccount,
