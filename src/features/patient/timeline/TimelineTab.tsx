@@ -62,35 +62,27 @@ export default function TimelineTab({ patientId }: TimelineTabProps) {
   const [isCompactView, setIsCompactView] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<TimelineEvent | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
-  const [filters, setFilters] = useState<TimelineFilters>({
-    severityLevels: [...ALL_SEVERITY_LEVELS],
-    categoryIds: [],
-    dateRange: { from: undefined, to: undefined },
-  });
 
-  const rawEvents = patientId
-    ? getTimelineEventsForPatient(patientId)
-    : [];
-  const categories = patientId
-    ? getDiagnosisCategoriesForPatient(patientId)
-    : [];
-
-  const categoryIds = useMemo(() => {
-    if (filters.categoryIds.length > 0) return filters.categoryIds;
-    return categories.map((c) => c.id);
-  }, [filters.categoryIds, categories]);
-
-  const effectiveFilters: TimelineFilters = useMemo(
-    () => ({
-      ...filters,
-      categoryIds,
-    }),
-    [filters, categoryIds],
+  const rawEvents = useMemo(
+    () => (patientId ? getTimelineEventsForPatient(patientId) : []),
+    [patientId],
+  );
+  const categories = useMemo(
+    () => (patientId ? getDiagnosisCategoriesForPatient(patientId) : []),
+    [patientId],
   );
 
+  const [filters, setFilters] = useState<TimelineFilters>(() => ({
+    severityLevels: [...ALL_SEVERITY_LEVELS],
+    categoryIds: patientId
+      ? getDiagnosisCategoriesForPatient(patientId).map((c) => c.id)
+      : [],
+    dateRange: { from: undefined, to: undefined },
+  }));
+
   const filteredEvents = useMemo(
-    () => filterEvents(rawEvents, effectiveFilters),
-    [rawEvents, effectiveFilters],
+    () => filterEvents(rawEvents, filters),
+    [rawEvents, filters],
   );
 
   const severityCounts = useMemo(
@@ -111,13 +103,13 @@ export default function TimelineTab({ patientId }: TimelineTabProps) {
   }, [setMenuBarCollapsed]);
 
   useEffect(() => {
-    if (categories.length > 0 && filters.categoryIds.length === 0) {
-      setFilters((prev) => ({
-        ...prev,
-        categoryIds: categories.map((c) => c.id),
-      }));
-    }
-  }, [categories]);
+    if (!patientId) return;
+    const cats = getDiagnosisCategoriesForPatient(patientId);
+    setFilters((prev) => ({
+      ...prev,
+      categoryIds: cats.map((c) => c.id),
+    }));
+  }, [patientId]);
 
   const handleEventSelect = (event: TimelineEvent) => {
     setSelectedEvent(event);
@@ -152,7 +144,7 @@ export default function TimelineTab({ patientId }: TimelineTabProps) {
         onSeverityChange={(levels) =>
           setFilters((prev) => ({ ...prev, severityLevels: levels }))
         }
-        categoryIds={categoryIds}
+        categoryIds={filters.categoryIds}
         onCategoryChange={(ids) =>
           setFilters((prev) => ({ ...prev, categoryIds: ids }))
         }
@@ -167,7 +159,7 @@ export default function TimelineTab({ patientId }: TimelineTabProps) {
       />
       <TimelineGrid
         events={filteredEvents}
-        categories={categories.filter((c) => categoryIds.includes(c.id))}
+        categories={categories.filter((c) => filters.categoryIds.includes(c.id))}
         isCompactView={isCompactView}
         onEventSelect={handleEventSelect}
       />

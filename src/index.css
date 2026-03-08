@@ -502,6 +502,13 @@
   scrollbar-width: thin;
 }
 
+.timeline-header-scroll {
+  scrollbar-width: none;
+}
+.timeline-header-scroll::-webkit-scrollbar {
+  display: none;
+}
+
 .timeline-scroll-wrapper::-webkit-scrollbar {
   width: 8px;
   height: 8px;

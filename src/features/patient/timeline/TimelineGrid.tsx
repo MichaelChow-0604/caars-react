@@ -99,42 +99,32 @@ export function TimelineGrid({
     );
   }
 
-  const gridColumns = `${MONTH_COLUMN_WIDTH}px repeat(${categoryOrder.length}, ${COLUMN_WIDTH}px)`;
+  const gridColumns = `${MONTH_COLUMN_WIDTH}px repeat(${categoryOrder.length}, ${COLUMN_WIDTH}px) 1fr`;
   const MONTH_BAR_HEIGHT = 32;
-  const gridTemplateRows = [
-    `${HEADER_ROW_HEIGHT}px`,
-    ...monthKeys.flatMap(() => [`${MONTH_BAR_HEIGHT}px`, 'auto']),
-  ].join(' ');
+  const gridTemplateRows = monthKeys
+    .flatMap(() => [`${MONTH_BAR_HEIGHT}px`, 'auto'])
+    .join(' ');
 
   return (
-    <div className="timeline-scroll-wrapper flex min-h-0 min-w-0 flex-1 overflow-auto bg-caars-neutral-white">
+    <div className="timeline-scroll-wrapper flex min-h-0 min-w-0 flex-1 flex-col overflow-auto bg-caars-neutral-white">
+      {/* Sticky header — lives outside the grid so it sticks for the full scroll height */}
       <div
-        className="grid min-w-max"
-        style={{
-          gridTemplateColumns: gridColumns,
-          gridTemplateRows,
-        }}
+        className="sticky top-0 z-30 flex min-w-max bg-caars-neutral-white"
+        style={{ height: HEADER_ROW_HEIGHT }}
       >
         <div
-          className="sticky left-0 top-0 z-20 flex h-14 items-center border-caars-neutral-grey-4 bg-caars-neutral-white px-3"
+          className="sticky left-0 z-30 shrink-0 bg-transparent"
           style={{ minWidth: MONTH_COLUMN_WIDTH }}
         />
-        {categoryOrder.map((catId, catIndex) => {
+        {categoryOrder.map((catId) => {
           const cat = categoryMap.get(catId);
-          const isFirstCategory = catIndex === 0;
           return (
-            /* Category row */
             <div
               key={catId}
-              className={`sticky top-0 z-20 flex h-14 items-center justify-start overflow-visible border-l border-caars-neutral-grey-4 bg-caars-neutral-white pr-4`}
-              style={{
-                minWidth: COLUMN_WIDTH,
-                paddingLeft: 0,
-              }}
+              className="flex items-center justify-start overflow-visible border-l border-caars-neutral-grey-4 bg-caars-neutral-white pr-4"
+              style={{ minWidth: COLUMN_WIDTH, height: HEADER_ROW_HEIGHT }}
             >
-              <div
-                className="-ml-2 rounded-lg border border-caars-neutral-grey-4 bg-caars-neutral-grey-3 px-3 py-1.5"
-              >
+              <div className="-ml-2 rounded-lg border border-caars-neutral-grey-4 bg-caars-neutral-grey-3 px-3 py-1.5">
                 <span className="font-caars-header text-caars-body-1 font-semibold leading-caars-body-1 text-caars-neutral-black truncate block max-w-[180px]">
                   {cat?.label ?? catId}
                 </span>
@@ -142,6 +132,14 @@ export function TimelineGrid({
             </div>
           );
         })}
+      </div>
+      <div
+        className="grid min-w-max w-full"
+        style={{
+          gridTemplateColumns: gridColumns,
+          gridTemplateRows,
+        }}
+      >
         {monthKeys.map((monthKey) => {
           const [year, month] = monthKey.split('-');
           const monthDate = new Date(parseInt(year, 10), parseInt(month, 10) - 1);
@@ -164,7 +162,7 @@ export function TimelineGrid({
               </div>
               {/* Month Column */}
               <div
-                className="sticky left-0 z-5 flex items-center bg-caars-neutral-white"
+                className="sticky left-0 z-5 flex items-center bg-transparent"
                 style={{ minWidth: MONTH_COLUMN_WIDTH }}
               />
               {categoryOrder.map((catId) => {
@@ -179,7 +177,7 @@ export function TimelineGrid({
                     }}
                   >
                     {isCompactView ? (
-                      <div className="flex flex-col items-start gap-2 py-2 -ml-4 z-50">
+                      <div className="flex flex-col items-start gap-2 py-2 -ml-4 z-20">
                         {cellEvents.map((evt) => (
                           <CompactBullet
                             key={evt.id}
@@ -217,3 +215,4 @@ export function TimelineGrid({
     </div>
   );
 }
+

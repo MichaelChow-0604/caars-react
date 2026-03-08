@@ -44,7 +44,7 @@ export function CompactBullet({ event, onSelect }: CompactBulletProps) {
         align="start"
         side="right"
         sideOffset={8}
-        className="w-auto border-caars-neutral-grey-4 p-0"
+        className="w-auto border-none shadow-none rounded-xl p-0"
       >
         <TimelineEventCard event={event} onClick={handleCardClick} />
       </PopoverContent>
