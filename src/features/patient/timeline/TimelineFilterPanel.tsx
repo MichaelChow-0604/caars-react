@@ -16,6 +16,8 @@ const SEVERITY_CONFIG: Record<
   normal: { label: 'Normal', dotColor: 'bg-caars-success-1' },
 };
 
+const ALL_SEVERITIES: SeverityLevel[] = ['emergency', 'routine', 'normal'];
+
 export interface TimelineFilterPanelProps {
   isCompactView: boolean;
   onCompactViewChange: (value: boolean) => void;
@@ -53,6 +55,13 @@ export function TimelineFilterPanel({
   onDateRangeChange,
   onApplyDateRange,
 }: TimelineFilterPanelProps) {
+  const severityMasterState = ALL_SEVERITIES.every((l) =>
+    severityLevels.includes(l),
+  );
+
+  const categoryMasterState =
+    categories.length > 0 && categories.every((c) => categoryIds.includes(c.id));
+
   const handleSeverityToggle = (level: SeverityLevel, checked: boolean) => {
     if (checked) {
       onSeverityChange([...severityLevels, level]);
@@ -102,74 +111,85 @@ export function TimelineFilterPanel({
       </Button>
 
       <div className="flex flex-col gap-2">
-        <h3 className="font-caars-header text-caars-body-2 font-semibold leading-caars-body-2 text-caars-neutral-black">
-          Staff Severity Level
-        </h3>
-        {(['emergency', 'routine', 'normal'] as SeverityLevel[]).map(
-          (level) => {
-            const { label, dotColor } = SEVERITY_CONFIG[level];
-            const checked = severityLevels.includes(level);
-            const count = severityCounts[level] ?? 0;
-            return (
-              <button
-                key={level}
-                type="button"
-                className="flex w-full items-center gap-2 text-left"
-                onClick={() => handleSeverityToggle(level, !checked)}
+        <div className="flex items-center justify-between">
+          <h3 className="font-caars-header text-caars-body-2 font-semibold leading-caars-body-2 text-caars-neutral-black">
+            Staff Severity Level
+          </h3>
+          <Checkbox
+            checked={severityMasterState}
+            title={severityMasterState ? 'Deselect all' : 'Select all'}
+            onCheckedChange={(checked) =>
+              checked
+                ? onSeverityChange([...ALL_SEVERITIES])
+                : onSeverityChange([])
+            }
+          />
+        </div>
+        {ALL_SEVERITIES.map((level) => {
+          const { label, dotColor } = SEVERITY_CONFIG[level];
+          const checked = severityLevels.includes(level);
+          const count = severityCounts[level] ?? 0;
+          const id = `filter-severity-${level}`;
+          return (
+            <div key={level} className="flex w-full items-center gap-2">
+              <Checkbox
+                id={id}
+                checked={checked}
+                onCheckedChange={(c) => handleSeverityToggle(level, c === true)}
+              />
+              <label
+                htmlFor={id}
+                className="flex flex-1 cursor-pointer items-center gap-2"
               >
-                <Checkbox
-                  checked={checked}
-                  onCheckedChange={(c) =>
-                    handleSeverityToggle(level, c === true)
-                  }
-                  onClick={(e) => e.stopPropagation()}
-                />
-                <span
-                  className={cn(
-                    'size-2 shrink-0 rounded-full',
-                    dotColor,
-                  )}
-                />
-                <span className="flex-1 font-caars-header text-caars-body-2 leading-caars-body-2 text-caars-neutral-black">
+                <span className={cn('size-2 shrink-0 rounded-full', dotColor)} />
+                <span className="font-caars-header text-caars-body-2 leading-caars-body-2 text-caars-neutral-black">
                   {label}
                 </span>
-                <span className="font-caars-header text-caars-body-2 leading-caars-body-2 text-caars-neutral-grey-6">
-                  {count} item{count !== 1 ? 's' : ''}
-                </span>
-              </button>
-            );
-          },
-        )}
+              </label>
+              <span className="font-caars-header text-xs leading-caars-body-2 text-caars-neutral-grey-6">
+                {count}
+              </span>
+            </div>
+          );
+        })}
       </div>
 
       <div className="flex flex-col gap-2">
-        <h3 className="font-caars-header text-caars-body-2 font-semibold leading-caars-body-2 text-caars-neutral-black">
-          Diagnosis Categories
-        </h3>
+        <div className="flex items-center justify-between">
+          <h3 className="font-caars-header text-caars-body-2 font-semibold leading-caars-body-2 text-caars-neutral-black">
+            Diagnosis Categories
+          </h3>
+          <Checkbox
+            checked={categoryMasterState}
+            title={categoryMasterState ? 'Deselect all' : 'Select all'}
+            onCheckedChange={(checked) =>
+              checked
+                ? onCategoryChange(categories.map((c) => c.id))
+                : onCategoryChange([])
+            }
+          />
+        </div>
         {categories.map((cat) => {
           const checked = categoryIds.includes(cat.id);
           const count = categoryCounts[cat.id] ?? 0;
+          const id = `filter-category-${cat.id}`;
           return (
-            <button
-              key={cat.id}
-              type="button"
-              className="flex w-full items-center gap-2 text-left"
-              onClick={() => handleCategoryToggle(cat.id, !checked)}
-            >
+            <div key={cat.id} className="flex w-full items-center gap-2">
               <Checkbox
+                id={id}
                 checked={checked}
-                onCheckedChange={(c) =>
-                  handleCategoryToggle(cat.id, c === true)
-                }
-                onClick={(e) => e.stopPropagation()}
+                onCheckedChange={(c) => handleCategoryToggle(cat.id, c === true)}
               />
-              <span className="flex-1 font-caars-header text-caars-body-2 leading-caars-body-2 text-caars-neutral-black truncate">
+              <label
+                htmlFor={id}
+                className="flex-1 cursor-pointer truncate font-caars-header text-caars-body-2 leading-caars-body-2 text-caars-neutral-black"
+              >
                 {cat.label}
+              </label>
+              <span className="shrink-0 font-caars-header text-xs leading-caars-body-2 text-caars-neutral-grey-6">
+                {count}
               </span>
-              <span className="shrink-0 font-caars-header text-caars-body-2 leading-caars-body-2 text-caars-neutral-grey-6">
-                {count} item{count !== 1 ? 's' : ''}
-              </span>
-            </button>
+            </div>
           );
         })}
       </div>
