@@ -91,13 +91,13 @@ export default function PatientHomePage({ patientId }: PatientHomePageProps) {
           </TabsContent>
           <TabsContent
             value="patient-info"
-            className="m-0 flex-1 min-h-0 overflow-hidden data-[state=inactive]:hidden"
+            className="m-0 flex flex-1 min-h-0 min-w-0 flex-col overflow-hidden data-[state=inactive]:hidden"
           >
             <PatientInfoTab />
           </TabsContent>
           <TabsContent
             value="previous-encounters"
-            className="m-0 flex-1 min-h-0 overflow-hidden data-[state=inactive]:hidden"
+            className="m-0 flex flex-1 min-h-0 min-w-0 flex-col overflow-hidden data-[state=inactive]:hidden"
           >
             <PreviousEncountersTab />
           </TabsContent>
