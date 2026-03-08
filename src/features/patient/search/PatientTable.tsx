@@ -4,7 +4,7 @@ import {
   useReactTable,
   createColumnHelper,
 } from '@tanstack/react-table';
-import type { Patient } from './types';
+import type { Patient } from '../types';
 import { cn } from '@/lib/utils';
 
 const columnHelper = createColumnHelper<Patient>();

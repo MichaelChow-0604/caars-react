@@ -2,8 +2,11 @@ import { MOCK_RECENTLY_VIEWED, MOCK_SEARCH_RESULTS } from './patientData';
 import type { Patient } from './types';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import PatientPreview from './PatientPreview';
-import ClinicalPreviewTab from './ClinicalPreviewTab';
-import CommentFooter from './CommentFooter';
+import { ClinicalPreviewTab, CommentFooter } from './clinical-preview';
+import { TimelineTab } from './timeline';
+import { PatientInfoTab } from './patient-info';
+import { PreviousEncountersTab } from './previous-encounters';
+import { PatientDocumentsTab } from './patient-documents';
 
 function getPatientById(patientId: string): Patient | null {
   const all = [...MOCK_RECENTLY_VIEWED, ...MOCK_SEARCH_RESULTS];
@@ -73,53 +76,38 @@ export default function PatientHomePage({ patientId }: PatientHomePageProps) {
         <div className="flex flex-1 min-h-0 min-w-0 flex-col overflow-hidden">
           <TabsContent
             value="clinical-preview"
-            className="m-0 flex-1 min-h-0 overflow-y-auto overflow-x-hidden px-8 py-6 data-[state=inactive]:hidden"
+            className="m-0 flex flex-1 min-h-0 min-w-0 flex-col overflow-hidden data-[state=inactive]:hidden"
           >
-            <ClinicalPreviewTab />
+            <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden px-8 py-6">
+              <ClinicalPreviewTab />
+            </div>
+            <CommentFooter className="shrink-0 border-t border-caars-neutral-grey-4" />
           </TabsContent>
           <TabsContent
             value="timeline"
             className="m-0 flex-1 min-h-0 overflow-hidden data-[state=inactive]:hidden"
           >
-            <div className="flex h-full items-center justify-center">
-              <span className="font-caars-header text-caars-body-1 leading-caars-body-1 text-caars-neutral-grey-7">
-                Timeline (placeholder)
-              </span>
-            </div>
+            <TimelineTab />
           </TabsContent>
           <TabsContent
             value="patient-info"
             className="m-0 flex-1 min-h-0 overflow-hidden data-[state=inactive]:hidden"
           >
-            <div className="flex h-full items-center justify-center">
-              <span className="font-caars-header text-caars-body-1 leading-caars-body-1 text-caars-neutral-grey-7">
-                Patient Info (placeholder)
-              </span>
-            </div>
+            <PatientInfoTab />
           </TabsContent>
           <TabsContent
             value="previous-encounters"
             className="m-0 flex-1 min-h-0 overflow-hidden data-[state=inactive]:hidden"
           >
-            <div className="flex h-full items-center justify-center">
-              <span className="font-caars-header text-caars-body-1 leading-caars-body-1 text-caars-neutral-grey-7">
-                Previous Encounters (placeholder)
-              </span>
-            </div>
+            <PreviousEncountersTab />
           </TabsContent>
           <TabsContent
             value="patient-documents"
             className="m-0 flex-1 min-h-0 overflow-hidden data-[state=inactive]:hidden"
           >
-            <div className="flex h-full items-center justify-center">
-              <span className="font-caars-header text-caars-body-1 leading-caars-body-1 text-caars-neutral-grey-7">
-                Patient Documents (placeholder)
-              </span>
-            </div>
+            <PatientDocumentsTab />
           </TabsContent>
         </div>
-
-        <CommentFooter className="shrink-0 border-t border-caars-neutral-grey-4" />
       </Tabs>
     </div>
   );

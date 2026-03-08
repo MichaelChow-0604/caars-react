@@ -157,7 +157,7 @@ export default function PreviousSummariesSection() {
             <AccordionTrigger
               className={cn(
                 'rounded-none px-8 py-4 hover:no-underline',
-                'bg-caars-neutral-grey-3 hover:bg-caars-neutral-grey-4',
+                'bg-caars-neutral-grey-4 hover:bg-caars-neutral-grey-4',
                 'font-caars-header text-caars-h5 leading-caars-h5 font-semibold text-caars-neutral-black',
                 '[&>svg]:size-6 [&>svg]:text-caars-neutral-grey-7',
               )}

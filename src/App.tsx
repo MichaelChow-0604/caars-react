@@ -3,7 +3,7 @@ import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router'
 import MenuBar, { type StaffMember } from './layouts/MenuBar';
 import SearchBar from './layouts/SearchBar';
 import CalendarPage from './features/calendar/CalendarPage';
-import PatientPage from './features/patient/PatientPage';
+import { PatientSearchPage } from './features/patient/search';
 import PatientHomePage from './features/patient/PatientHomePage';
 import DailyScheduleSidebar from './features/patient/DailyScheduleSidebar';
 import LoginPage from './features/auth/LoginPage';
@@ -164,7 +164,7 @@ function App() {
                   />
                 }
               />
-              <Route path={NAV_PATHS.patient} element={<PatientPage />} />
+              <Route path={NAV_PATHS.patient} element={<PatientSearchPage />} />
               <Route
                 path={NAV_PATHS.setting}
                 element={<CenterPlaceholder text="Setting (placeholder)" />}
