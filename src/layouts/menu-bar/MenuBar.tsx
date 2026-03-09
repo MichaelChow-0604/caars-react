@@ -4,13 +4,13 @@ import { cn } from "@/lib/utils";
 import { useLayoutStore } from "@/stores/layoutStore";
 import { IconAccount, IconDate, IconInfo, IconSetting } from "@/lib/icon";
 
-import { MenuTabs } from "@/layouts/menuBar/MenuTabs";
-import { MiniCalendarSection } from "@/layouts/menuBar/MiniCalendarSection";
-import { StaffListSection } from "@/layouts/menuBar/StaffListSection";
-import { UserCard } from "@/layouts/menuBar/UserCard";
-import type { CurrentUser, StaffMember } from "@/layouts/menuBar/types";
+import { MenuTabs } from "@/layouts/menu-bar/MenuTabs";
+import { MiniCalendarSection } from "@/layouts/menu-bar/MiniCalendarSection";
+import { StaffListSection } from "@/layouts/menu-bar/StaffListSection";
+import { UserCard } from "@/layouts/menu-bar/UserCard";
+import type { CurrentUser, StaffMember } from "@/layouts/menu-bar/types";
 
-export type { CurrentUser, StaffMember } from "@/layouts/menuBar/types";
+export type { CurrentUser, StaffMember } from "@/layouts/menu-bar/types";
 
 export interface MenuBarProps {
   mode: "day" | "week";
@@ -49,8 +49,8 @@ const NAV_ITEMS = [
   { id: "bug-report", label: "Bug Report", icon: IconInfo },
 ];
 
-const MENU_WIDTH_EXPANDED = "w-[280px]";
-const MENU_WIDTH_COLLAPSED = "w-[84px]";
+const MENU_WIDTH_EXPANDED = "w-64";
+const MENU_WIDTH_COLLAPSED = "w-16";
 
 export default function MenuBar({
   mode,
@@ -93,8 +93,8 @@ export default function MenuBar({
     const next = checked
       ? staffList.map((s) => s.id)
       : currentUserId
-        ? [currentUserId]
-        : [];
+      ? [currentUserId]
+      : [];
     setInternalChecked(next);
     onCheckedStaffChange?.(next);
   };
@@ -116,7 +116,7 @@ export default function MenuBar({
   return (
     <aside
       className={cn(
-        "flex h-full shrink-0 flex-col bg-caars-neutral-white border-r-2 border-caars-neutral-grey-4 overflow-hidden transition-[width] duration-300",
+        "flex h-screen min-h-[720px] max-h-[1440px] shrink-0 flex-col bg-caars-neutral-white border-r-2 border-caars-neutral-grey-4 overflow-hidden transition-[width] duration-300",
         collapsed ? MENU_WIDTH_COLLAPSED : MENU_WIDTH_EXPANDED
       )}
     >
@@ -135,7 +135,7 @@ export default function MenuBar({
             date={date}
             onDateChange={handleDateChange}
           />
-          {activeNavItem === 'calendar' ? (
+          {activeNavItem === "calendar" ? (
             <div className="flex-1 min-h-0 overflow-y-auto">
               <StaffListSection
                 mode={mode}

@@ -1,48 +1,45 @@
-import { useState } from 'react'
-import { useForm, Controller } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import { useNavigate } from 'react-router'
-import { CInput } from '@/components/caars-ui/CInput'
-import CButton from '@/components/caars-ui/CButton'
-import { IconEye, IconEyeClose } from '@/lib/icon'
-import { useAuthStore } from '@/stores/authStore'
-import { useUserStore } from '@/stores/userStore'
-import { cn } from '@/lib/utils'
+import { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useNavigate } from "react-router";
+import { CInput } from "@/components/caars-ui/CInput";
+import CButton from "@/components/caars-ui/CButton";
+import { IconEye, IconEyeClose } from "@/lib/icon";
+import { useAuthStore } from "@/stores/authStore";
+import { useUserStore } from "@/stores/userStore";
+import { cn } from "@/lib/utils";
 
 const loginSchema = z.object({
   username: z.string(),
   password: z.string(),
-})
+});
 
-type LoginFormValues = z.infer<typeof loginSchema>
+type LoginFormValues = z.infer<typeof loginSchema>;
 
 function MasterLogo({ className }: { className?: string }) {
   return (
-    <div
-      className={cn('relative overflow-hidden', className)}
-      aria-hidden
-    >
+    <div className={cn("relative overflow-hidden", className)} aria-hidden>
       <img
         alt="CAARS"
         className="h-full w-full object-contain"
         src={"/logo.png"}
       />
     </div>
-  )
+  );
 }
 
 const MOCK_LOGIN_RESPONSE = {
   user_id: 1,
-  username: 'Dr. Jane Doe',
-  role: 'General Practitioner',
-} as const
+  username: "Dr. Jane Doe",
+  role: "General Practitioner",
+} as const;
 
 export default function LoginPage() {
-  const navigate = useNavigate()
-  const login = useAuthStore((s) => s.login)
-  const setUser = useUserStore((s) => s.setUser)
-  const [showPassword, setShowPassword] = useState(false)
+  const navigate = useNavigate();
+  const login = useAuthStore((s) => s.login);
+  const setUser = useUserStore((s) => s.setUser);
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     control,
@@ -50,14 +47,14 @@ export default function LoginPage() {
     formState: { errors },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
-    defaultValues: { username: '', password: '' },
-  })
+    defaultValues: { username: "", password: "" },
+  });
 
   const handleLogin = () => {
-    login('mock-access-token')
-    setUser(MOCK_LOGIN_RESPONSE)
-    navigate('/calendar')
-  }
+    login("mock-access-token");
+    setUser(MOCK_LOGIN_RESPONSE);
+    navigate("/calendar");
+  };
 
   return (
     <div className="flex min-h-full w-full items-center justify-center bg-caars-neutral-grey-2">
@@ -89,7 +86,7 @@ export default function LoginPage() {
               render={({ field }) => (
                 <CInput
                   label="Password"
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   placeholder="Password"
                   errorMsg={errors.password?.message}
                   suffix={
@@ -97,7 +94,9 @@ export default function LoginPage() {
                       type="button"
                       onClick={() => setShowPassword((p) => !p)}
                       className="shrink-0 text-caars-neutral-grey-6 hover:text-caars-neutral-black transition-colors"
-                      aria-label={showPassword ? 'Hide password' : 'Show password'}
+                      aria-label={
+                        showPassword ? "Hide password" : "Show password"
+                      }
                     >
                       {showPassword ? (
                         <IconEyeClose className="size-6" />
@@ -117,5 +116,5 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

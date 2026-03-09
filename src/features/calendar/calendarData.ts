@@ -150,14 +150,6 @@ export const FAKE_APPOINTMENTS: CalendarAppointment[] = [
   // ── Week-spread appointments (week view, resourceId '1' = Dr. Jane Doe) ──
   // Monday
   {
-    id: 'w1',
-    resourceId: '1',
-    title: 'Betty Wong, 35F',
-    start: w(0, '09:30:00'),
-    end: w(0, '09:40:00'),
-    extendedProps: { patientId: '1', patientName: 'Betty Wong, 35F', time: '9:30am', state: 'active' },
-  },
-  {
     id: 'w2',
     resourceId: '1',
     title: 'Alan Shore, 42M',

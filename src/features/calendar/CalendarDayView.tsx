@@ -5,7 +5,7 @@ import FullCalendar from "@fullcalendar/react";
 import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import type { EventContentArg, SlotLabelContentArg } from "@fullcalendar/core";
 import AppointmentPreview from "@/components/AppointmentPreview";
-import type { StaffMember } from "@/layouts/MenuBar";
+import type { StaffMember } from "@/layouts/menu-bar/MenuBar";
 import {
   FAKE_APPOINTMENTS,
   getAppointmentsForDate,
@@ -52,13 +52,13 @@ export default function CalendarDayView({
   const appointmentCounts = countAppointmentsPerResource(appointments);
 
   const sortedStaff = [...checkedStaff].sort((a, b) =>
-    a.id === currentUserId ? -1 : b.id === currentUserId ? 1 : 0,
+    a.id === currentUserId ? -1 : b.id === currentUserId ? 1 : 0
   );
 
   const resources = sortedStaff.map((s) => ({
     id: s.id,
     title: s.name,
-    classNames: s.id === currentUserId ? ['fc-caars-user-col'] : [],
+    classNames: s.id === currentUserId ? ["fc-caars-user-col"] : [],
     extendedProps: { appointmentCount: appointmentCounts[s.id] ?? 0 },
   }));
 
@@ -90,61 +90,31 @@ export default function CalendarDayView({
             format(arg.date, "h:mm aaa")
           }
           nowIndicator
-          nowIndicatorDidMount={(arg) => {
-            if (!arg.isAxis) return;
-            const el = arg.el as HTMLElement;
-
-            // Unblock overflow on every ancestor up to the axis frame
-            // so the text isn't clipped by the zero-height indicator container
-            let node: HTMLElement | null = el;
-            for (let i = 0; i < 8 && node; i++) {
-              node.style.overflow = "visible";
-              node = node.parentElement;
-            }
-
-            // Style the label — DO NOT set position/top/right here.
-            // The parent .fc-timegrid-now-indicator-container already has
-            // position:absolute with the correct top offset set by FullCalendar.
-            // We just need in-flow text styled appropriately.
-            Object.assign(el.style, {
-              display: "block",
-              width: `${AXIS_WIDTH}px`,
-              textAlign: "right",
-              paddingRight: "10px",
-              color: "#ff9500",
-              fontSize: "11px",
-              fontWeight: "600",
-              fontFamily: "Inter, sans-serif",
-              whiteSpace: "nowrap",
-              transform: "translateY(-50%)",
-              border: "none",
-              margin: "0",
-            });
-            el.textContent = format(arg.date, "h:mm aaa");
-          }}
           headerToolbar={false}
           allDaySlot={false}
           resources={resources}
           datesSet={() => {
-            const wrapper = document.querySelector('.fc-caars-wrapper');
+            const wrapper = document.querySelector(".fc-caars-wrapper");
             if (!wrapper) return;
-            wrapper.querySelectorAll('.fc-caars-user-col').forEach((el) => el.classList.remove('fc-caars-user-col'));
-            const headerCells = wrapper.querySelectorAll('.fc-col-header-cell');
+            wrapper
+              .querySelectorAll(".fc-caars-user-col")
+              .forEach((el) => el.classList.remove("fc-caars-user-col"));
+            const headerCells = wrapper.querySelectorAll(".fc-col-header-cell");
             const firstResourceHeader = headerCells[0];
-            if (firstResourceHeader) firstResourceHeader.classList.add('fc-caars-user-col');
-            const bodyCols = wrapper.querySelectorAll('.fc-timegrid-col:not(.fc-timegrid-axis)');
+            if (firstResourceHeader)
+              firstResourceHeader.classList.add("fc-caars-user-col");
+            const bodyCols = wrapper.querySelectorAll(
+              ".fc-timegrid-col:not(.fc-timegrid-axis)"
+            );
             const firstResourceCol = bodyCols[0];
-            if (firstResourceCol) firstResourceCol.classList.add('fc-caars-user-col');
+            if (firstResourceCol)
+              firstResourceCol.classList.add("fc-caars-user-col");
           }}
           events={appointments}
           resourceLabelContent={(arg) =>
             renderResourceLabel(arg, onDoctorHeaderClick)
           }
           eventContent={(arg) => renderEventContent(arg, navigate)}
-          // height="auto" makes FC expand to full content height with no
-          // internal scrollbar — the outer div becomes the single scroll source
-          height="auto"
-          expandRows={false}
         />
       </div>
     </div>
@@ -192,7 +162,7 @@ function renderEventContent(
       line1={patientName}
       line2={time}
       state={state}
-      className="w-full h-full rounded-[8px] border-none px-3 py-2 shadow-none overflow-hidden"
+      className="w-full h-[90%] rounded-[8px]"
       onClick={() => navigate(`/patient/${patientId}`)}
     />
   );
