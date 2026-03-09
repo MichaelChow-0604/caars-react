@@ -259,13 +259,6 @@
 
 /* ─── FullCalendar CAARS overrides ─────────────────────────────────────────── */
 
-.fc-caars-wrapper .fc,
-.fc-caars-wrapper .fc *,
-.fc-caars-wrapper .fc *::before,
-.fc-caars-wrapper .fc *::after {
-  box-sizing: border-box;
-}
-
 .fc-caars-wrapper .fc-license-message {
   display: none !important;
 }
@@ -301,11 +294,11 @@
 
 /* ── Sticky column headers ──
    Stick to the top of the outer scroll container while scrolling down */
-.fc-caars-wrapper .fc-scrollgrid-section-header > td {
+.fc-caars-wrapper .fc-scrollgrid-section-header > th {
   position: sticky;
   top: 0;
-  z-index: 10;
   background: #ffffff;
+  z-index: 10;
 }
 
 /* ── Sticky time-axis column ──
@@ -334,29 +327,32 @@
   transform: translateY(-50%);
 }
 
-/* ── Time-axis header corner: sticky both top and left ── */
+/* ── Time-axis header corner & axis column: sticky left ── */
 .fc-caars-wrapper .fc-timegrid-axis {
   position: sticky;
   left: 0;
-  z-index: 15;
-  background: #ffffff;
-  border-bottom: 2px solid #e6e8ec;
+  z-index: 0;
   width: 90px !important;
   min-width: 90px;
   overflow: visible !important;
+  background: #ffffff;
+  border-bottom: 2px solid #e6e8ec;
+}
+
+/* Header corner cell only: tinted background */
+.fc-caars-wrapper .fc-scrollgrid-section-header .fc-timegrid-axis {
+  z-index: 15;
+  background: #ffffff;
+  border-bottom: none;
 }
 
 /* ── Column header styling ── */
 .fc-caars-wrapper .fc-col-header-cell {
   border-bottom: 2px solid #e6e8ec;
-  border-right: 1px solid #e6e8ec;
-  background: #ffffff;
-  padding: 0;
+  width: 280px;
 }
 
 .fc-caars-wrapper .fc-col-header-cell-cushion {
-  color: inherit;
-  text-decoration: none;
   padding: 0;
   width: 100%;
 }
@@ -374,14 +370,8 @@
 
 /* ── Each time-slot row ── */
 .fc-caars-wrapper .fc-timegrid-slot {
-  height: 64px;
+  height: 80px;
   border-bottom: none;
-}
-
-/* Horizontal rule only in lane cells (not the time-label column) */
-.fc-caars-wrapper .fc-timegrid-slot-lane {
-  border-bottom: 1px solid #f4f5f6;
-  border-right: 1px solid #e6e8ec;
 }
 
 /* ── Remove FC border chrome ── */
@@ -391,70 +381,33 @@
   width: 100%;
 }
 
-.fc-caars-wrapper .fc-scrollgrid-section > td {
-  border: none;
-}
-
 .fc-caars-wrapper .fc-scrollgrid td,
 .fc-caars-wrapper .fc-scrollgrid th {
   border-color: #e6e8ec;
 }
 
-/* ── Align header and body columns; ensure right border visible ── */
-.fc-caars-wrapper .fc-resource-timegrid-day .fc-col-header-cell,
-.fc-caars-wrapper .fc-resource-timegrid-day .fc-timegrid-slot-lane {
-  width: 280px;
-  min-width: 280px;
-  box-sizing: border-box;
-}
-
-.fc-caars-wrapper .fc-resource-timegrid-day .fc-col-header-cell:last-child,
-.fc-caars-wrapper .fc-resource-timegrid-day .fc-timegrid-slot-lane:last-child,
-.fc-caars-wrapper .fc-resource-timegrid-day .fc-timegrid-col:last-child {
-  border-right: 1px solid #e6e8ec;
-}
-
-/* ── Event chrome removal ── */
-.fc-caars-wrapper .fc-timegrid-event-harness {
-  inset-inline-start: 4px !important;
-  inset-inline-end: 4px !important;
-}
-
 .fc-caars-wrapper .fc-timegrid-event {
   border: none !important;
   background: transparent !important;
+}
+
+/* Remove default FullCalendar event chrome (anchor wrapper border/shadow) */
+.fc-caars-wrapper .fc-event {
+  border: none !important;
   box-shadow: none !important;
-  padding: 0 !important;
-  border-radius: 0 !important;
+  background: transparent !important;
 }
 
 .fc-caars-wrapper .fc-event-main {
-  padding: 0;
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* ── Now indicator line ── */
 .fc-caars-wrapper .fc-timegrid-now-indicator-line {
   border-top: 2px solid #ff9500;
-  z-index: 6;
-}
-
-/* Arrow element: clear all default triangle CSS so nowIndicatorDidMount
-   can render a plain text label in-flow (position NOT overridden — the
-   parent container already has the correct top offset from FullCalendar) */
-.fc-caars-wrapper .fc-timegrid-now-indicator-arrow {
-  border: none !important;
-  width: auto !important;
-  height: auto !important;
-  margin: 0 !important;
-  position: static !important;
-  overflow: visible !important;
-}
-
-/* Ensure the entire now-indicator axis chain is never clipped */
-.fc-caars-wrapper .fc-timegrid-axis-frame,
-.fc-caars-wrapper .fc-timegrid-now-indicator-container {
-  overflow: visible !important;
 }
 
 /* ── Today column highlight: white by default; only user's column is tinted ── */
@@ -489,42 +442,6 @@
 }
 
 .fc-caars-wrapper::-webkit-scrollbar-corner {
-  background: #f4f5f6;
-}
-
-/* ─── Timeline scroll container ───────────────────────────────────────────── */
-.timeline-scroll-wrapper {
-  scrollbar-color: #b1b5c3 #f4f5f6;
-  scrollbar-width: thin;
-}
-
-.timeline-header-scroll {
-  scrollbar-width: none;
-}
-.timeline-header-scroll::-webkit-scrollbar {
-  display: none;
-}
-
-.timeline-scroll-wrapper::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-.timeline-scroll-wrapper::-webkit-scrollbar-track {
-  background: #f4f5f6;
-  border-radius: 4px;
-}
-
-.timeline-scroll-wrapper::-webkit-scrollbar-thumb {
-  background: #b1b5c3;
-  border-radius: 4px;
-}
-
-.timeline-scroll-wrapper::-webkit-scrollbar-thumb:hover {
-  background: #777e90;
-}
-
-.timeline-scroll-wrapper::-webkit-scrollbar-corner {
   background: #f4f5f6;
 }
 
@@ -702,6 +619,10 @@
 .fc-caars-week-wrapper .fc-timegrid-event-harness {
   inset-inline-start: 4px !important;
   inset-inline-end: 4px !important;
+}
+
+.fc-timegrid-event-harness {
+  border: none;
 }
 
 .fc-caars-week-wrapper .fc-timegrid-event {

@@ -4,13 +4,13 @@ import { cn } from "@/lib/utils";
 import { useLayoutStore } from "@/stores/layoutStore";
 import { IconAccount, IconDate, IconInfo, IconSetting } from "@/lib/icon";
 
-import { MenuTabs } from "@/layouts/menuBar/MenuTabs";
-import { MiniCalendarSection } from "@/layouts/menuBar/MiniCalendarSection";
-import { StaffListSection } from "@/layouts/menuBar/StaffListSection";
-import { UserCard } from "@/layouts/menuBar/UserCard";
-import type { CurrentUser, StaffMember } from "@/layouts/menuBar/types";
+import { MenuTabs } from "@/layouts/menu-bar/MenuTabs";
+import { MiniCalendarSection } from "@/layouts/menu-bar/MiniCalendarSection";
+import { StaffListSection } from "@/layouts/menu-bar/StaffListSection";
+import { UserCard } from "@/layouts/menu-bar/UserCard";
+import type { CurrentUser, StaffMember } from "@/layouts/menu-bar/types";
 
-export type { CurrentUser, StaffMember } from "@/layouts/menuBar/types";
+export type { CurrentUser, StaffMember } from "@/layouts/menu-bar/types";
 
 export interface MenuBarProps {
   mode: "day" | "week";
@@ -49,8 +49,8 @@ const NAV_ITEMS = [
   { id: "bug-report", label: "Bug Report", icon: IconInfo },
 ];
 
-const MENU_WIDTH_EXPANDED = "w-[280px]";
-const MENU_WIDTH_COLLAPSED = "w-[84px]";
+const MENU_WIDTH_EXPANDED = "w-64";
+const MENU_WIDTH_COLLAPSED = "w-16";
 
 export default function MenuBar({
   mode,

@@ -6,8 +6,8 @@ import {
   useLocation,
   useNavigate,
 } from "react-router";
-import MenuBar, { type StaffMember } from "./layouts/MenuBar";
 import SearchBar from "./layouts/SearchBar";
+import { MenuBar, type StaffMember } from "./layouts/menu-bar";
 import CalendarPage from "./features/calendar/CalendarPage";
 import { PatientSearchPage } from "./features/patient/search";
 import PatientHomePage from "./features/patient/PatientHomePage";
