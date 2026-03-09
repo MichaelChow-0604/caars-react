@@ -93,8 +93,8 @@ export default function MenuBar({
     const next = checked
       ? staffList.map((s) => s.id)
       : currentUserId
-        ? [currentUserId]
-        : [];
+      ? [currentUserId]
+      : [];
     setInternalChecked(next);
     onCheckedStaffChange?.(next);
   };
@@ -116,7 +116,7 @@ export default function MenuBar({
   return (
     <aside
       className={cn(
-        "flex h-full shrink-0 flex-col bg-caars-neutral-white border-r-2 border-caars-neutral-grey-4 overflow-hidden transition-[width] duration-300",
+        "flex h-screen min-h-[720px] max-h-[1440px] shrink-0 flex-col bg-caars-neutral-white border-r-2 border-caars-neutral-grey-4 overflow-hidden transition-[width] duration-300",
         collapsed ? MENU_WIDTH_COLLAPSED : MENU_WIDTH_EXPANDED
       )}
     >
@@ -135,7 +135,7 @@ export default function MenuBar({
             date={date}
             onDateChange={handleDateChange}
           />
-          {activeNavItem === 'calendar' ? (
+          {activeNavItem === "calendar" ? (
             <div className="flex-1 min-h-0 overflow-y-auto">
               <StaffListSection
                 mode={mode}
